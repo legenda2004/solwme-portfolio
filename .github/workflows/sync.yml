@@ -1,0 +1,55 @@
+name: Auto-Sync Google Drive Videos to GitHub Pages
+
+on:
+  schedule:
+    # Запуск каждые 15 минут круглосуточно (бесплатно в GitHub Actions)
+    - cron: '*/15 * * * *'
+  workflow_dispatch: # Возможность нажать кнопку "Run workflow" вручную в любой момент
+  push:
+    branches:
+      - main
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Restore credentials.json from GitHub Secrets
+        env:
+          GDRIVE_CREDENTIALS: ${{ secrets.GDRIVE_CREDENTIALS }}
+        run: |
+          if [ -n "$GDRIVE_CREDENTIALS" ]; then
+            echo "$GDRIVE_CREDENTIALS" > credentials.json
+            echo "credentials.json restored from secret."
+          fi
+
+      - name: Run Google Drive sync
+        run: |
+          node -e "
+          const fs = require('fs');
+          const path = require('path');
+          // run single sync pass
+          require('./sync_gdrive_single.js');
+          "
+
+      - name: Commit and push changes if videos.json updated
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action [Google Drive Sync]"
+          git add videos.json
+          if git diff --staged --quiet; then
+            echo "No changes in videos.json. Everything up to date."
+          else
+            git commit -m "Auto-sync Google Drive videos [skip ci]"
+            git push
+          fi

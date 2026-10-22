@@ -7,76 +7,57 @@ const FOLDER_ID = '1jPSdn-z-C3uglhDuXSXQu9N7Ah3v98gz';
 const CRED_PATH = path.join(__dirname, 'credentials.json');
 const OUTPUT_FILE = path.join(__dirname, 'videos.json');
 
-// Функция определения категории видео по его названию и описанию
+// Интервал проверки в миллисекундах (5 секунд — оптимальный реальный тайминг без блокировок API)
+const CHECK_INTERVAL_MS = 5000;
+
+let lastToken = null;
+let tokenExpiresAt = 0;
+let lastHash = '';
+
+// Умная категоризация
 function detectCategory(name, desc) {
   const text = `${name || ''} ${desc || ''}`.toLowerCase();
 
-  // Экспертный контент
   if (
-    text.includes('эксперт') ||
-    text.includes('разбор') ||
-    text.includes('совет') ||
-    text.includes('урок') ||
-    text.includes('алгоритм') ||
-    text.includes('интервью') ||
-    text.includes('обучени') ||
-    text.includes('мышлени') ||
-    text.includes('стратеги') ||
-    text.includes('как ') ||
-    text.includes('топ') ||
-    text.includes('фишк') ||
-    text.includes('книг') ||
-    text.includes('ошибк')
+    text.includes('эксперт') || text.includes('разбор') || text.includes('совет') ||
+    text.includes('урок') || text.includes('алгоритм') || text.includes('интервью') ||
+    text.includes('обучени') || text.includes('мышлени') || text.includes('стратеги') ||
+    text.includes('как ') || text.includes('топ') || text.includes('фишк') ||
+    text.includes('книг') || text.includes('ошибк')
   ) {
     return 'expert';
   }
 
-  // Реклама & Бренды & UGC
   if (
-    text.includes('реклам') ||
-    text.includes('бренд') ||
-    text.includes('ugc') ||
-    text.includes('промо') ||
-    text.includes('обзор') ||
-    text.includes('товар') ||
-    text.includes('магазин') ||
-    text.includes('кофейн') ||
-    text.includes('авто') ||
-    text.includes('студи') ||
-    text.includes('дроп') ||
-    text.includes('распаковк') ||
-    text.includes('заказ') ||
-    text.includes('twoeye')
+    text.includes('реклам') || text.includes('бренд') || text.includes('ugc') ||
+    text.includes('промо') || text.includes('обзор') || text.includes('товар') ||
+    text.includes('магазин') || text.includes('кофейн') || text.includes('авто') ||
+    text.includes('студи') || text.includes('дроп') || text.includes('распаковк') ||
+    text.includes('заказ') || text.includes('twoeye')
   ) {
     return 'commercial';
   }
 
-  // Lifestyle & Атмосфера
   if (
-    text.includes('лайф') ||
-    text.includes('life') ||
-    text.includes('день') ||
-    text.includes('влог') ||
-    text.includes('атмосфер') ||
-    text.includes('ноч') ||
-    text.includes('закат') ||
-    text.includes('стрит') ||
-    text.includes('прогулк') ||
-    text.includes('коворкинг') ||
-    text.includes('бэкстейдж') ||
-    text.includes('chechevata') ||
+    text.includes('лайф') || text.includes('life') || text.includes('день') ||
+    text.includes('влог') || text.includes('атмосфер') || text.includes('ноч') ||
+    text.includes('закат') || text.includes('стрит') || text.includes('прогулк') ||
+    text.includes('коворкинг') || text.includes('бэкстейдж') || text.includes('chechevata') ||
     text.includes('эстетик')
   ) {
     return 'lifestyle';
   }
 
-  // По умолчанию для трендовых вертикальных форматов
   return 'reels';
 }
 
 function getAccessToken(creds) {
+  const now = Math.floor(Date.now() / 1000);
+  if (lastToken && tokenExpiresAt > now + 60) {
+    return Promise.resolve(lastToken);
+  }
+
   return new Promise((resolve, reject) => {
-    const now = Math.floor(Date.now() / 1000);
     const header = { alg: 'RS256', typ: 'JWT' };
     const claimSet = {
       iss: creds.client_email,
@@ -109,7 +90,9 @@ function getAccessToken(creds) {
         try {
           const json = JSON.parse(body);
           if (json.access_token) {
-            resolve(json.access_token);
+            lastToken = json.access_token;
+            tokenExpiresAt = now + 3500;
+            resolve(lastToken);
           } else {
             reject(new Error(JSON.stringify(json)));
           }
@@ -126,7 +109,6 @@ function getAccessToken(creds) {
 
 function fetchDriveFolderFiles(token) {
   return new Promise((resolve, reject) => {
-    // Строго только внутри указанной папки!
     const query = encodeURIComponent(`'${FOLDER_ID}' in parents and mimeType contains 'video/' and trashed = false`);
     const fields = encodeURIComponent('files(id,name,mimeType,description,createdTime,size)');
     const orderBy = encodeURIComponent('createdTime desc');
@@ -155,12 +137,8 @@ function fetchDriveFolderFiles(token) {
   });
 }
 
-async function sync() {
-  console.log(`[Google Drive Sync] Синхронизация папки ${FOLDER_ID}...`);
-  if (!fs.existsSync(CRED_PATH)) {
-    console.warn(`[Google Drive Sync] Файл credentials.json не найден в ${CRED_PATH}`);
-    return;
-  }
+async function checkAndSync() {
+  if (!fs.existsSync(CRED_PATH)) return;
 
   try {
     const creds = JSON.parse(fs.readFileSync(CRED_PATH, 'utf8'));
@@ -168,32 +146,40 @@ async function sync() {
     const driveRes = await fetchDriveFolderFiles(token);
 
     const files = driveRes.files || [];
-    console.log(`[Google Drive Sync] Найдено видеофайлов в папке: ${files.length}`);
+    const currentHash = JSON.stringify(files.map(f => `${f.id}:${f.name}`));
 
-    const formattedVideos = files.map((file, idx) => {
-      // Удаляем расширения вроде .mp4, .mov, .MP4
-      const cleanTitle = file.name.replace(/\.[a-zA-Z0-9]+$/, '');
-      const category = detectCategory(cleanTitle, file.description);
+    // Записываем только если состав файлов изменился (добавились или удалились)
+    if (currentHash !== lastHash) {
+      lastHash = currentHash;
+      const formattedVideos = files.map((file, idx) => {
+        const cleanTitle = file.name.replace(/\.[a-zA-Z0-9]+$/, '');
+        const category = detectCategory(cleanTitle, file.description);
 
-      return {
-        id: file.id,
-        num: idx + 1,
-        title: cleanTitle,
-        subtitle: file.description || 'Вертикальное видео · Reels / Shorts',
-        category: category, // reels | commercial | expert | lifestyle
-        previewUrl: `https://drive.google.com/file/d/${file.id}/preview`,
-        streamUrl: `https://drive.google.com/uc?export=download&id=${file.id}`,
-        thumbnailUrl: `https://drive.google.com/thumbnail?id=${file.id}&sz=w1000`,
-        createdTime: file.createdTime
-      };
-    });
+        return {
+          id: file.id,
+          num: idx + 1,
+          title: cleanTitle,
+          subtitle: file.description || 'Вертикальное видео · Reels / Shorts',
+          category: category,
+          previewUrl: `https://drive.google.com/file/d/${file.id}/preview`,
+          streamUrl: `https://drive.google.com/uc?export=download&id=${file.id}`,
+          thumbnailUrl: `https://drive.google.com/thumbnail?id=${file.id}&sz=w1000`,
+          createdTime: file.createdTime
+        };
+      });
 
-    fs.writeFileSync(OUTPUT_FILE, JSON.stringify(formattedVideos, null, 2), 'utf8');
-    console.log(`[Google Drive Sync] Успешно сохранен файл ${OUTPUT_FILE} (${formattedVideos.length} видео).`);
+      fs.writeFileSync(OUTPUT_FILE, JSON.stringify(formattedVideos, null, 2), 'utf8');
+      const timeStr = new Date().toLocaleTimeString();
+      console.log(`[${timeStr}] Синхронизировано: ${formattedVideos.length} видео из Google Диска.`);
+    }
   } catch (err) {
-    console.error(`[Google Drive Sync] Ошибка:`, err.message || err);
+    // Тихо продолжаем цикл при мелких сетевых сбоях
   }
 }
 
-// Запуск
-sync();
+console.log(`[Google Drive Live Watcher] Запущен мониторинг папки ${FOLDER_ID}`);
+console.log(`[Google Drive Live Watcher] Проверка каждые ${CHECK_INTERVAL_MS / 1000} сек. Нажмите Ctrl+C для остановки.`);
+
+// Первичный опрос и запуск цикличного наблюдателя
+checkAndSync();
+setInterval(checkAndSync, CHECK_INTERVAL_MS);

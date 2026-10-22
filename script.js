@@ -58,8 +58,9 @@ document.addEventListener("DOMContentLoaded", () => {
       console.warn("videos.json not loaded yet:", e);
     }
 
-    renderFeed(allVideos);
-  }
+    const newHash = JSON.stringify(allVideos.map(d=>d.id));
+      renderFeed(allVideos);
+    }
 
   function renderFeed(items) {
     videoGrid.innerHTML = "";
@@ -133,4 +134,5 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   loadVideos();
+  setInterval(loadVideos, 3000);
 });

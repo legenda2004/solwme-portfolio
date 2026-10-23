@@ -3,45 +3,19 @@ const crypto = require('crypto');
 const https = require('https');
 const path = require('path');
 
-const FOLDER_ID = '1jPSdn-z-C3uglhDuXSXQu9N7Ah3v98gz';
+const PARENT_FOLDER_ID = '1jPSdn-z-C3uglhDuXSXQu9N7Ah3v98gz';
 const CRED_PATH = path.join(__dirname, 'credentials.json');
 const OUTPUT_FILE = path.join(__dirname, 'videos.json');
 
-function detectCategory(name, desc) {
-  const text = `${name || ''} ${desc || ''}`.toLowerCase();
-
-  if (
-    text.includes('эксперт') || text.includes('разбор') || text.includes('совет') ||
-    text.includes('урок') || text.includes('алгоритм') || text.includes('интервью') ||
-    text.includes('обучени') || text.includes('мышлени') || text.includes('стратеги') ||
-    text.includes('как ') || text.includes('топ') || text.includes('фишк') ||
-    text.includes('книг') || text.includes('ошибк')
-  ) {
-    return 'expert';
-  }
-
-  if (
-    text.includes('реклам') || text.includes('бренд') || text.includes('ugc') ||
-    text.includes('промо') || text.includes('обзор') || text.includes('товар') ||
-    text.includes('магазин') || text.includes('кофейн') || text.includes('авто') ||
-    text.includes('студи') || text.includes('дроп') || text.includes('распаковк') ||
-    text.includes('заказ') || text.includes('twoeye')
-  ) {
-    return 'commercial';
-  }
-
-  if (
-    text.includes('лайф') || text.includes('life') || text.includes('день') ||
-    text.includes('влог') || text.includes('атмосфер') || text.includes('ноч') ||
-    text.includes('закат') || text.includes('стрит') || text.includes('прогулк') ||
-    text.includes('коворкинг') || text.includes('бэкстейдж') || text.includes('chechevata') ||
-    text.includes('эстетик')
-  ) {
-    return 'lifestyle';
-  }
-
-  return 'reels';
-}
+// Соответствие названий подпапок и системных ключей категорий
+const FOLDER_CATEGORY_MAP = {
+  'SMM': 'smm',
+  'UGC контент-завод': 'ugc',
+  'Рекламные': 'commercial',
+  'Рестораны': 'restaurants',
+  'Атмосфера': 'lifestyle',
+  'Дизайн': 'design'
+};
 
 function getAccessToken(creds) {
   return new Promise((resolve, reject) => {
@@ -49,7 +23,7 @@ function getAccessToken(creds) {
     const header = { alg: 'RS256', typ: 'JWT' };
     const claimSet = {
       iss: creds.client_email,
-      scope: 'https://www.googleapis.com/auth/drive.readonly',
+      scope: 'https://www.googleapis.com/auth/drive',
       aud: creds.token_uri,
       exp: now + 3600,
       iat: now
@@ -77,11 +51,8 @@ function getAccessToken(creds) {
       res.on('end', () => {
         try {
           const json = JSON.parse(body);
-          if (json.access_token) {
-            resolve(json.access_token);
-          } else {
-            reject(new Error(JSON.stringify(json)));
-          }
+          if (json.access_token) resolve(json.access_token);
+          else reject(new Error(JSON.stringify(json)));
         } catch (e) {
           reject(e);
         }
@@ -93,20 +64,14 @@ function getAccessToken(creds) {
   });
 }
 
-function fetchDriveFolderFiles(token) {
+function queryFiles(token, query, fields) {
   return new Promise((resolve, reject) => {
-    const query = encodeURIComponent(`'${FOLDER_ID}' in parents and mimeType contains 'video/' and trashed = false`);
-    const fields = encodeURIComponent('files(id,name,mimeType,description,createdTime,size)');
-    const orderBy = encodeURIComponent('createdTime desc');
-    const pathUrl = `/drive/v3/files?q=${query}&fields=${fields}&orderBy=${orderBy}&pageSize=100`;
-
+    const pathUrl = `/drive/v3/files?q=${encodeURIComponent(query)}&fields=${encodeURIComponent(fields)}&pageSize=100`;
     const req = https.request({
       hostname: 'www.googleapis.com',
       path: pathUrl,
       method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
+      headers: { 'Authorization': `Bearer ${token}` }
     }, (res) => {
       let body = '';
       res.on('data', chunk => body += chunk);
@@ -123,41 +88,76 @@ function fetchDriveFolderFiles(token) {
   });
 }
 
-async function runSingleSync() {
-  if (!fs.existsSync(CRED_PATH)) {
-    console.error('credentials.json not found!');
-    return;
-  }
-
+async function run() {
+  if (!fs.existsSync(CRED_PATH)) return;
   const creds = JSON.parse(fs.readFileSync(CRED_PATH, 'utf8'));
   const token = await getAccessToken(creds);
-  const driveRes = await fetchDriveFolderFiles(token);
 
-  const files = driveRes.files || [];
-  console.log(`Found ${files.length} video files in Google Drive folder.`);
+  // 1. Получаем список подпапок внутри главной папки
+  const subfoldersRes = await queryFiles(token, `'${PARENT_FOLDER_ID}' in parents and mimeType = 'application/vnd.google-apps.folder' and trashed = false`, 'files(id,name)');
+  const subfolders = subfoldersRes.files || [];
 
-  const formattedVideos = files.map((file, idx) => {
+  const folderMap = {};
+  for (const f of subfolders) {
+    const cat = FOLDER_CATEGORY_MAP[f.name] || 'reels';
+    folderMap[f.id] = { name: f.name, category: cat };
+  }
+
+  // 2. Ищем все медиафайлы (видео и фото) внутри этих подпапок + в корневой папке
+  const folderIds = [PARENT_FOLDER_ID, ...subfolders.map(f => f.id)];
+  const parentQuery = folderIds.map(id => `'${id}' in parents`).join(' or ');
+  const mediaQuery = `(${parentQuery}) and (mimeType contains 'video/' or mimeType contains 'image/') and trashed = false`;
+  const fields = 'files(id,name,mimeType,parents,description,createdTime,size)';
+
+  const filesRes = await queryFiles(token, mediaQuery, fields);
+  const files = filesRes.files || [];
+
+  // Проверяем, есть ли аватарка (photo.jpg, avatar.jpg, sanya.jpg и т.д.)
+  let avatarUrl = '';
+  const mediaItems = [];
+
+  for (const file of files) {
+    const isImage = file.mimeType.startsWith('image/');
+    const isAvatar = isImage && /photo|avatar|sanya|саня|главн|me\./i.test(file.name);
+
+    if (isAvatar && !avatarUrl) {
+      avatarUrl = `https://drive.google.com/thumbnail?id=${file.id}&sz=w1200`;
+      continue;
+    }
+
+    // Определяем категорию по родительской папке
+    let category = 'reels';
+    let folderName = 'Портфолио';
+    if (file.parents && file.parents.length > 0) {
+      const pId = file.parents[0];
+      if (folderMap[pId]) {
+        category = folderMap[pId].category;
+        folderName = folderMap[pId].name;
+      }
+    }
+
     const cleanTitle = file.name.replace(/\.[a-zA-Z0-9]+$/, '');
-    const category = detectCategory(cleanTitle, file.description);
-
-    return {
+    mediaItems.push({
       id: file.id,
-      num: idx + 1,
       title: cleanTitle,
-      subtitle: file.description || 'Вертикальное видео · Reels / Shorts',
+      subtitle: file.description || `${folderName} · ${isImage ? 'Дизайн / Графика' : 'Reels / Видео'}`,
       category: category,
+      type: isImage ? 'image' : 'video',
       previewUrl: `https://drive.google.com/file/d/${file.id}/preview`,
       streamUrl: `https://drive.google.com/uc?export=download&id=${file.id}`,
       thumbnailUrl: `https://drive.google.com/thumbnail?id=${file.id}&sz=w1000`,
       createdTime: file.createdTime
-    };
-  });
+    });
+  }
 
-  fs.writeFileSync(OUTPUT_FILE, JSON.stringify(formattedVideos, null, 2), 'utf8');
-  console.log(`Updated ${OUTPUT_FILE} successfully.`);
+  // Сохраняем в videos.json
+  const result = {
+    avatarUrl: avatarUrl,
+    items: mediaItems
+  };
+
+  fs.writeFileSync(OUTPUT_FILE, JSON.stringify(result, null, 2), 'utf8');
+  console.log(`[Sync] Найдено: ${mediaItems.length} медиафайлов. Аватарка: ${avatarUrl ? 'Да' : 'Не найдена (дефолт)'}`);
 }
 
-runSingleSync().catch(err => {
-  console.error('Sync failed:', err);
-  process.exit(1);
-});
+run().catch(console.error);

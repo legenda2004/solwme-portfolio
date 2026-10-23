@@ -1,98 +1,58 @@
 {
-  "avatarUrl": "https://drive.google.com/thumbnail?id=1eGfoZHGgGNPiR51DuTGN5VMeaIb9Z6ag&sz=w1200",
+  "avatarUrl": "https://drive.google.com/thumbnail?id=1vq3d-nN7rCsZ-0P87f91VX048iDaYDDd&sz=w1200",
+  "socialScreenshots": {
+    "tg": [
+      {
+        "id": "1HmwS568WZ-uz4Y_a0zQ4PIW4uDk43vxz",
+        "name": "tg1",
+        "url": "https://drive.google.com/thumbnail?id=1HmwS568WZ-uz4Y_a0zQ4PIW4uDk43vxz&sz=w1000"
+      },
+      {
+        "id": "1x4huqPFMRZu3t7ZjKTXroA-8kG1eEXhi",
+        "name": "tg2",
+        "url": "https://drive.google.com/thumbnail?id=1x4huqPFMRZu3t7ZjKTXroA-8kG1eEXhi&sz=w1000"
+      }
+    ],
+    "insta": [
+      {
+        "id": "1k5BcTzj7j_6Sy2HbqU7_plWLDwgoJxNP",
+        "name": "inst1",
+        "url": "https://drive.google.com/thumbnail?id=1k5BcTzj7j_6Sy2HbqU7_plWLDwgoJxNP&sz=w1000"
+      },
+      {
+        "id": "1ufd5Y0xWSsVhVtJNezKChBKzoCtCac0w",
+        "name": "inst2",
+        "url": "https://drive.google.com/thumbnail?id=1ufd5Y0xWSsVhVtJNezKChBKzoCtCac0w&sz=w1000"
+      },
+      {
+        "id": "1XMJpj2wo2JUdAFmC4wRQ5PzShyV9buu8",
+        "name": "inst3",
+        "url": "https://drive.google.com/thumbnail?id=1XMJpj2wo2JUdAFmC4wRQ5PzShyV9buu8&sz=w1000"
+      },
+      {
+        "id": "1cTfz5lADWAz9Pn7RpdX26w1nA8Xfh0pp",
+        "name": "inst4",
+        "url": "https://drive.google.com/thumbnail?id=1cTfz5lADWAz9Pn7RpdX26w1nA8Xfh0pp&sz=w1000"
+      }
+    ],
+    "tiktok": [
+      {
+        "id": "1T-BFyVHhTaAThC0z-CFJKZqtyRe6FXNO",
+        "name": "tiktok1",
+        "url": "https://drive.google.com/thumbnail?id=1T-BFyVHhTaAThC0z-CFJKZqtyRe6FXNO&sz=w1000"
+      },
+      {
+        "id": "1zsdRdFkBAYlBmFZ2ccFh1dhuZwJ0P-Gw",
+        "name": "tiktok2",
+        "url": "https://drive.google.com/thumbnail?id=1zsdRdFkBAYlBmFZ2ccFh1dhuZwJ0P-Gw&sz=w1000"
+      }
+    ]
+  },
   "items": [
-    {
-      "id": "1zsdRdFkBAYlBmFZ2ccFh1dhuZwJ0P-Gw",
-      "title": "tiktok2",
-      "subtitle": "Портфолио · Дизайн / Графика",
-      "category": "reels",
-      "type": "image",
-      "previewUrl": "https://drive.google.com/file/d/1zsdRdFkBAYlBmFZ2ccFh1dhuZwJ0P-Gw/preview",
-      "streamUrl": "https://drive.google.com/uc?export=download&id=1zsdRdFkBAYlBmFZ2ccFh1dhuZwJ0P-Gw",
-      "thumbnailUrl": "https://drive.google.com/thumbnail?id=1zsdRdFkBAYlBmFZ2ccFh1dhuZwJ0P-Gw&sz=w1000",
-      "createdTime": "2026-10-23T12:42:59.938Z"
-    },
-    {
-      "id": "1T-BFyVHhTaAThC0z-CFJKZqtyRe6FXNO",
-      "title": "tiktok1",
-      "subtitle": "Портфолио · Дизайн / Графика",
-      "category": "reels",
-      "type": "image",
-      "previewUrl": "https://drive.google.com/file/d/1T-BFyVHhTaAThC0z-CFJKZqtyRe6FXNO/preview",
-      "streamUrl": "https://drive.google.com/uc?export=download&id=1T-BFyVHhTaAThC0z-CFJKZqtyRe6FXNO",
-      "thumbnailUrl": "https://drive.google.com/thumbnail?id=1T-BFyVHhTaAThC0z-CFJKZqtyRe6FXNO&sz=w1000",
-      "createdTime": "2026-10-23T12:42:59.880Z"
-    },
-    {
-      "id": "1cTfz5lADWAz9Pn7RpdX26w1nA8Xfh0pp",
-      "title": "inst4",
-      "subtitle": "Портфолио · Дизайн / Графика",
-      "category": "reels",
-      "type": "image",
-      "previewUrl": "https://drive.google.com/file/d/1cTfz5lADWAz9Pn7RpdX26w1nA8Xfh0pp/preview",
-      "streamUrl": "https://drive.google.com/uc?export=download&id=1cTfz5lADWAz9Pn7RpdX26w1nA8Xfh0pp",
-      "thumbnailUrl": "https://drive.google.com/thumbnail?id=1cTfz5lADWAz9Pn7RpdX26w1nA8Xfh0pp&sz=w1000",
-      "createdTime": "2026-10-23T12:42:59.892Z"
-    },
-    {
-      "id": "1XMJpj2wo2JUdAFmC4wRQ5PzShyV9buu8",
-      "title": "inst3",
-      "subtitle": "Портфолио · Дизайн / Графика",
-      "category": "reels",
-      "type": "image",
-      "previewUrl": "https://drive.google.com/file/d/1XMJpj2wo2JUdAFmC4wRQ5PzShyV9buu8/preview",
-      "streamUrl": "https://drive.google.com/uc?export=download&id=1XMJpj2wo2JUdAFmC4wRQ5PzShyV9buu8",
-      "thumbnailUrl": "https://drive.google.com/thumbnail?id=1XMJpj2wo2JUdAFmC4wRQ5PzShyV9buu8&sz=w1000",
-      "createdTime": "2026-10-23T12:42:59.844Z"
-    },
-    {
-      "id": "1ufd5Y0xWSsVhVtJNezKChBKzoCtCac0w",
-      "title": "inst2",
-      "subtitle": "Портфолио · Дизайн / Графика",
-      "category": "reels",
-      "type": "image",
-      "previewUrl": "https://drive.google.com/file/d/1ufd5Y0xWSsVhVtJNezKChBKzoCtCac0w/preview",
-      "streamUrl": "https://drive.google.com/uc?export=download&id=1ufd5Y0xWSsVhVtJNezKChBKzoCtCac0w",
-      "thumbnailUrl": "https://drive.google.com/thumbnail?id=1ufd5Y0xWSsVhVtJNezKChBKzoCtCac0w&sz=w1000",
-      "createdTime": "2026-10-23T12:42:59.900Z"
-    },
-    {
-      "id": "1k5BcTzj7j_6Sy2HbqU7_plWLDwgoJxNP",
-      "title": "inst1",
-      "subtitle": "Портфолио · Дизайн / Графика",
-      "category": "reels",
-      "type": "image",
-      "previewUrl": "https://drive.google.com/file/d/1k5BcTzj7j_6Sy2HbqU7_plWLDwgoJxNP/preview",
-      "streamUrl": "https://drive.google.com/uc?export=download&id=1k5BcTzj7j_6Sy2HbqU7_plWLDwgoJxNP",
-      "thumbnailUrl": "https://drive.google.com/thumbnail?id=1k5BcTzj7j_6Sy2HbqU7_plWLDwgoJxNP&sz=w1000",
-      "createdTime": "2026-10-23T12:42:59.970Z"
-    },
-    {
-      "id": "1x4huqPFMRZu3t7ZjKTXroA-8kG1eEXhi",
-      "title": "tg2",
-      "subtitle": "Портфолио · Дизайн / Графика",
-      "category": "reels",
-      "type": "image",
-      "previewUrl": "https://drive.google.com/file/d/1x4huqPFMRZu3t7ZjKTXroA-8kG1eEXhi/preview",
-      "streamUrl": "https://drive.google.com/uc?export=download&id=1x4huqPFMRZu3t7ZjKTXroA-8kG1eEXhi",
-      "thumbnailUrl": "https://drive.google.com/thumbnail?id=1x4huqPFMRZu3t7ZjKTXroA-8kG1eEXhi&sz=w1000",
-      "createdTime": "2026-10-23T12:38:39.779Z"
-    },
-    {
-      "id": "1HmwS568WZ-uz4Y_a0zQ4PIW4uDk43vxz",
-      "title": "tg1",
-      "subtitle": "Портфолио · Дизайн / Графика",
-      "category": "reels",
-      "type": "image",
-      "previewUrl": "https://drive.google.com/file/d/1HmwS568WZ-uz4Y_a0zQ4PIW4uDk43vxz/preview",
-      "streamUrl": "https://drive.google.com/uc?export=download&id=1HmwS568WZ-uz4Y_a0zQ4PIW4uDk43vxz",
-      "thumbnailUrl": "https://drive.google.com/thumbnail?id=1HmwS568WZ-uz4Y_a0zQ4PIW4uDk43vxz&sz=w1000",
-      "createdTime": "2026-10-23T12:38:48.489Z"
-    },
     {
       "id": "1Bx7Ny6LtbX6_R6xjGWqJHX-h73IYO0WN",
       "title": "IMG_1197",
-      "subtitle": "SMM · Reels / Видео",
+      "subtitle": "",
       "category": "smm",
       "type": "video",
       "previewUrl": "https://drive.google.com/file/d/1Bx7Ny6LtbX6_R6xjGWqJHX-h73IYO0WN/preview",
@@ -103,7 +63,7 @@
     {
       "id": "1CWsKv2zrXWmr9eHThLaB5dCbzC5D42gU",
       "title": "IMG_1201",
-      "subtitle": "SMM · Reels / Видео",
+      "subtitle": "",
       "category": "smm",
       "type": "video",
       "previewUrl": "https://drive.google.com/file/d/1CWsKv2zrXWmr9eHThLaB5dCbzC5D42gU/preview",
@@ -114,7 +74,7 @@
     {
       "id": "1MKsRlBWpBUFSoBAnWZwqBkTF4GZwZMgQ",
       "title": "IMG_1202",
-      "subtitle": "SMM · Reels / Видео",
+      "subtitle": "",
       "category": "smm",
       "type": "video",
       "previewUrl": "https://drive.google.com/file/d/1MKsRlBWpBUFSoBAnWZwqBkTF4GZwZMgQ/preview",
@@ -125,7 +85,7 @@
     {
       "id": "1ARNS4PL9JqHACkuY92VFftWmuubaUl6x",
       "title": "IMG_1203",
-      "subtitle": "SMM · Reels / Видео",
+      "subtitle": "",
       "category": "smm",
       "type": "video",
       "previewUrl": "https://drive.google.com/file/d/1ARNS4PL9JqHACkuY92VFftWmuubaUl6x/preview",
@@ -136,7 +96,7 @@
     {
       "id": "1nrwnz70BgnVpIYg7zMoHQB-grm2CgXEs",
       "title": "IMG_1204",
-      "subtitle": "SMM · Reels / Видео",
+      "subtitle": "",
       "category": "smm",
       "type": "video",
       "previewUrl": "https://drive.google.com/file/d/1nrwnz70BgnVpIYg7zMoHQB-grm2CgXEs/preview",
@@ -147,7 +107,7 @@
     {
       "id": "1t6gM0yJgFf0q0TY7Pu-v4XwSg8aWrF0K",
       "title": "IMG_1195",
-      "subtitle": "SMM · Reels / Видео",
+      "subtitle": "",
       "category": "smm",
       "type": "video",
       "previewUrl": "https://drive.google.com/file/d/1t6gM0yJgFf0q0TY7Pu-v4XwSg8aWrF0K/preview",
@@ -158,7 +118,7 @@
     {
       "id": "1QJYGhp9VjrAXKXFVyOsDgOXtptViTW0-",
       "title": "IMG_1205",
-      "subtitle": "SMM · Reels / Видео",
+      "subtitle": "",
       "category": "smm",
       "type": "video",
       "previewUrl": "https://drive.google.com/file/d/1QJYGhp9VjrAXKXFVyOsDgOXtptViTW0-/preview",
@@ -169,7 +129,7 @@
     {
       "id": "1TUqrTmWM3G-w7Kk2JCMfSX2SBALno0GI",
       "title": "IMG_1064",
-      "subtitle": "SMM · Reels / Видео",
+      "subtitle": "",
       "category": "smm",
       "type": "video",
       "previewUrl": "https://drive.google.com/file/d/1TUqrTmWM3G-w7Kk2JCMfSX2SBALno0GI/preview",
@@ -180,7 +140,7 @@
     {
       "id": "1BHkmpFGARbGs_CEHDzeMPn9YodEO8bc-",
       "title": "IMG_1196",
-      "subtitle": "SMM · Reels / Видео",
+      "subtitle": "",
       "category": "smm",
       "type": "video",
       "previewUrl": "https://drive.google.com/file/d/1BHkmpFGARbGs_CEHDzeMPn9YodEO8bc-/preview",
@@ -191,7 +151,7 @@
     {
       "id": "1anfQyXIm5smiqrQzMRnXJEr9OgIayzLW",
       "title": "photo_2026-10-23_15-17-31",
-      "subtitle": "SMM · Дизайн / Графика",
+      "subtitle": "",
       "category": "smm",
       "type": "image",
       "previewUrl": "https://drive.google.com/file/d/1anfQyXIm5smiqrQzMRnXJEr9OgIayzLW/preview",
@@ -202,7 +162,7 @@
     {
       "id": "1Skdi4VX5Gp-kx8hAOZRsXqAEXyIalPZW",
       "title": "photo_2026-10-23_15-17-30",
-      "subtitle": "SMM · Дизайн / Графика",
+      "subtitle": "",
       "category": "smm",
       "type": "image",
       "previewUrl": "https://drive.google.com/file/d/1Skdi4VX5Gp-kx8hAOZRsXqAEXyIalPZW/preview",
@@ -213,7 +173,7 @@
     {
       "id": "1BmTa3JsFy7AAJOpTidi5JMp6BA60Kj0_",
       "title": "photo_2026-10-23_15-17-28",
-      "subtitle": "SMM · Дизайн / Графика",
+      "subtitle": "",
       "category": "smm",
       "type": "image",
       "previewUrl": "https://drive.google.com/file/d/1BmTa3JsFy7AAJOpTidi5JMp6BA60Kj0_/preview",
@@ -224,7 +184,7 @@
     {
       "id": "1BRFV6tUG32IMd9uF6vgMS6GDowizsNLq",
       "title": "photo_2026-10-23_15-17-27",
-      "subtitle": "SMM · Дизайн / Графика",
+      "subtitle": "",
       "category": "smm",
       "type": "image",
       "previewUrl": "https://drive.google.com/file/d/1BRFV6tUG32IMd9uF6vgMS6GDowizsNLq/preview",
@@ -235,7 +195,7 @@
     {
       "id": "1ZSef7A9qF4W7quOkbSzn2YKc5BNDLiEP",
       "title": "photo_2026-10-23_15-17-25",
-      "subtitle": "SMM · Дизайн / Графика",
+      "subtitle": "",
       "category": "smm",
       "type": "image",
       "previewUrl": "https://drive.google.com/file/d/1ZSef7A9qF4W7quOkbSzn2YKc5BNDLiEP/preview",
@@ -246,7 +206,7 @@
     {
       "id": "1cjR1-dRmg0CsUOj07mQGwXX1YaN3JHeF",
       "title": "photo_2026-10-23_15-17-24",
-      "subtitle": "SMM · Дизайн / Графика",
+      "subtitle": "",
       "category": "smm",
       "type": "image",
       "previewUrl": "https://drive.google.com/file/d/1cjR1-dRmg0CsUOj07mQGwXX1YaN3JHeF/preview",
@@ -257,7 +217,7 @@
     {
       "id": "1eZlmChr0qemxi-Cx_d3_OJcUORMSzDT5",
       "title": "photo_2026-10-23_15-15-41",
-      "subtitle": "SMM · Дизайн / Графика",
+      "subtitle": "",
       "category": "smm",
       "type": "image",
       "previewUrl": "https://drive.google.com/file/d/1eZlmChr0qemxi-Cx_d3_OJcUORMSzDT5/preview",
@@ -268,7 +228,7 @@
     {
       "id": "1GbYf9gMX-A6Nmgw-7nC942soWB3-X5V2",
       "title": "photo_2026-10-23_15-15-39",
-      "subtitle": "SMM · Дизайн / Графика",
+      "subtitle": "",
       "category": "smm",
       "type": "image",
       "previewUrl": "https://drive.google.com/file/d/1GbYf9gMX-A6Nmgw-7nC942soWB3-X5V2/preview",
@@ -279,7 +239,7 @@
     {
       "id": "1Bfr160SHRwaC0J_9BmmPD2dIRqzEP3NC",
       "title": "photo_2026-10-23_15-15-38",
-      "subtitle": "SMM · Дизайн / Графика",
+      "subtitle": "",
       "category": "smm",
       "type": "image",
       "previewUrl": "https://drive.google.com/file/d/1Bfr160SHRwaC0J_9BmmPD2dIRqzEP3NC/preview",
@@ -290,7 +250,7 @@
     {
       "id": "1xgOchHLc0n0m0ouB-aQ35gCeZu9THYUi",
       "title": "photo_2026-10-23_15-15-36",
-      "subtitle": "SMM · Дизайн / Графика",
+      "subtitle": "",
       "category": "smm",
       "type": "image",
       "previewUrl": "https://drive.google.com/file/d/1xgOchHLc0n0m0ouB-aQ35gCeZu9THYUi/preview",
@@ -301,7 +261,7 @@
     {
       "id": "1Ph6DxEGsxhvFRTrxGJ2VFpJVtjgyLteu",
       "title": "photo_2026-10-23_15-15-35",
-      "subtitle": "SMM · Дизайн / Графика",
+      "subtitle": "",
       "category": "smm",
       "type": "image",
       "previewUrl": "https://drive.google.com/file/d/1Ph6DxEGsxhvFRTrxGJ2VFpJVtjgyLteu/preview",
@@ -312,7 +272,7 @@
     {
       "id": "1EGIyH1B3ECr-oPueGHTyVc9e5WztcJ8P",
       "title": "photo_2026-10-23_15-15-34",
-      "subtitle": "SMM · Дизайн / Графика",
+      "subtitle": "",
       "category": "smm",
       "type": "image",
       "previewUrl": "https://drive.google.com/file/d/1EGIyH1B3ECr-oPueGHTyVc9e5WztcJ8P/preview",
@@ -323,7 +283,7 @@
     {
       "id": "148wCuzCt8JoqHADD4GOUBHT4Q4nqysF0",
       "title": "photo_2026-10-23_15-15-32",
-      "subtitle": "SMM · Дизайн / Графика",
+      "subtitle": "",
       "category": "smm",
       "type": "image",
       "previewUrl": "https://drive.google.com/file/d/148wCuzCt8JoqHADD4GOUBHT4Q4nqysF0/preview",
@@ -334,7 +294,7 @@
     {
       "id": "15y_POKdscBCzxLjd_uoLQ5s22iF6X_Zh",
       "title": "photo_2026-10-23_15-15-29",
-      "subtitle": "SMM · Дизайн / Графика",
+      "subtitle": "",
       "category": "smm",
       "type": "image",
       "previewUrl": "https://drive.google.com/file/d/15y_POKdscBCzxLjd_uoLQ5s22iF6X_Zh/preview",
@@ -345,7 +305,7 @@
     {
       "id": "1TxqMxKNhAwwDRXpy9-VbU6G9yA54Suvu",
       "title": "photo_2026-10-23_15-09-21",
-      "subtitle": "Рекламные · Дизайн / Графика",
+      "subtitle": "",
       "category": "commercial",
       "type": "image",
       "previewUrl": "https://drive.google.com/file/d/1TxqMxKNhAwwDRXpy9-VbU6G9yA54Suvu/preview",
@@ -356,7 +316,7 @@
     {
       "id": "1cik5pFMlKM_vBXqGDZM72VdBba8k6NtU",
       "title": "photo_2026-10-23_15-09-19",
-      "subtitle": "Рекламные · Дизайн / Графика",
+      "subtitle": "",
       "category": "commercial",
       "type": "image",
       "previewUrl": "https://drive.google.com/file/d/1cik5pFMlKM_vBXqGDZM72VdBba8k6NtU/preview",
@@ -367,7 +327,7 @@
     {
       "id": "1TljZfSyTKEEV0QujP9TJQY0GSUfFInx7",
       "title": "IMG_6090",
-      "subtitle": "Рекламные · Reels / Видео",
+      "subtitle": "",
       "category": "commercial",
       "type": "video",
       "previewUrl": "https://drive.google.com/file/d/1TljZfSyTKEEV0QujP9TJQY0GSUfFInx7/preview",
@@ -378,7 +338,7 @@
     {
       "id": "1iQ7TXU5ZW9LzHnMpstd6-JBEyCIYADJc",
       "title": "photo_2026-10-23_15-01-04",
-      "subtitle": "Рекламные · Дизайн / Графика",
+      "subtitle": "",
       "category": "commercial",
       "type": "image",
       "previewUrl": "https://drive.google.com/file/d/1iQ7TXU5ZW9LzHnMpstd6-JBEyCIYADJc/preview",
@@ -389,7 +349,7 @@
     {
       "id": "1NsAqv_37sv4NWrUCypDSRuxOwtNZNn5l",
       "title": "IMG_6206",
-      "subtitle": "Рекламные · Reels / Видео",
+      "subtitle": "",
       "category": "commercial",
       "type": "video",
       "previewUrl": "https://drive.google.com/file/d/1NsAqv_37sv4NWrUCypDSRuxOwtNZNn5l/preview",
@@ -400,7 +360,7 @@
     {
       "id": "1vEoFw-oJsb2ZnSH9N5uibXPbcG90ZRG4",
       "title": "photo_2026-10-23_15-00-50",
-      "subtitle": "Рекламные · Дизайн / Графика",
+      "subtitle": "",
       "category": "commercial",
       "type": "image",
       "previewUrl": "https://drive.google.com/file/d/1vEoFw-oJsb2ZnSH9N5uibXPbcG90ZRG4/preview",
@@ -411,7 +371,7 @@
     {
       "id": "1ZLgpLknUJBLUIIWvOlHPCmczlkDCCzuD",
       "title": "photo_2026-10-23_15-00-48",
-      "subtitle": "Рекламные · Дизайн / Графика",
+      "subtitle": "",
       "category": "commercial",
       "type": "image",
       "previewUrl": "https://drive.google.com/file/d/1ZLgpLknUJBLUIIWvOlHPCmczlkDCCzuD/preview",
@@ -422,7 +382,7 @@
     {
       "id": "1tqVb7yYVtdIpZtfL4EMSGo0q5WOfcK9i",
       "title": "IMG_8136",
-      "subtitle": "Рекламные · Reels / Видео",
+      "subtitle": "",
       "category": "commercial",
       "type": "video",
       "previewUrl": "https://drive.google.com/file/d/1tqVb7yYVtdIpZtfL4EMSGo0q5WOfcK9i/preview",
@@ -433,7 +393,7 @@
     {
       "id": "1YtfhXr0L_kxBvue1Gbu6dtySV-C24H0Q",
       "title": "IMG_6693",
-      "subtitle": "Рекламные · Reels / Видео",
+      "subtitle": "",
       "category": "commercial",
       "type": "video",
       "previewUrl": "https://drive.google.com/file/d/1YtfhXr0L_kxBvue1Gbu6dtySV-C24H0Q/preview",
@@ -444,7 +404,7 @@
     {
       "id": "1N9MfgMCsNBSKUUAisd5C8EkwgWmGMlcu",
       "title": "photo_2026-10-23_15-00-38",
-      "subtitle": "Рекламные · Дизайн / Графика",
+      "subtitle": "",
       "category": "commercial",
       "type": "image",
       "previewUrl": "https://drive.google.com/file/d/1N9MfgMCsNBSKUUAisd5C8EkwgWmGMlcu/preview",
@@ -455,7 +415,7 @@
     {
       "id": "1XEHvFoDcwnJdZ-3-70ZppH_hH-_u29O4",
       "title": "photo_2026-10-23_15-00-34",
-      "subtitle": "Рекламные · Дизайн / Графика",
+      "subtitle": "",
       "category": "commercial",
       "type": "image",
       "previewUrl": "https://drive.google.com/file/d/1XEHvFoDcwnJdZ-3-70ZppH_hH-_u29O4/preview",
@@ -466,7 +426,7 @@
     {
       "id": "1-j6uHrP0vG_mIN7dV2fhQrZerXKpejBP",
       "title": "IMG_5714",
-      "subtitle": "Рекламные · Reels / Видео",
+      "subtitle": "",
       "category": "commercial",
       "type": "video",
       "previewUrl": "https://drive.google.com/file/d/1-j6uHrP0vG_mIN7dV2fhQrZerXKpejBP/preview",
@@ -477,7 +437,7 @@
     {
       "id": "1d-vWGbIpjlcAD6hdllwIPwfDE4X48a-u",
       "title": "photo_2026-10-23_15-00-27",
-      "subtitle": "Рекламные · Дизайн / Графика",
+      "subtitle": "",
       "category": "commercial",
       "type": "image",
       "previewUrl": "https://drive.google.com/file/d/1d-vWGbIpjlcAD6hdllwIPwfDE4X48a-u/preview",
@@ -488,7 +448,7 @@
     {
       "id": "1k2tbBEFx4EuviOrfC761jDJASKGa9Mc7",
       "title": "IMG_5441",
-      "subtitle": "Рекламные · Reels / Видео",
+      "subtitle": "",
       "category": "commercial",
       "type": "video",
       "previewUrl": "https://drive.google.com/file/d/1k2tbBEFx4EuviOrfC761jDJASKGa9Mc7/preview",
@@ -499,7 +459,7 @@
     {
       "id": "1G4KEKYaUZuKuHCVkzZ54qDVd73ldndb2",
       "title": "photo_2026-10-23_15-00-20",
-      "subtitle": "Рекламные · Дизайн / Графика",
+      "subtitle": "",
       "category": "commercial",
       "type": "image",
       "previewUrl": "https://drive.google.com/file/d/1G4KEKYaUZuKuHCVkzZ54qDVd73ldndb2/preview",
@@ -510,7 +470,7 @@
     {
       "id": "1ru999KhpgUvznIobH4BQmw0cEmSFiyeE",
       "title": "IMG_1787",
-      "subtitle": "Рекламные · Reels / Видео",
+      "subtitle": "",
       "category": "commercial",
       "type": "video",
       "previewUrl": "https://drive.google.com/file/d/1ru999KhpgUvznIobH4BQmw0cEmSFiyeE/preview",
@@ -521,7 +481,7 @@
     {
       "id": "1AD1XV5R1T4S7aHl0EUMIOIm6ZQYUBlv1",
       "title": "photo_2026-10-23_15-00-10",
-      "subtitle": "Рекламные · Дизайн / Графика",
+      "subtitle": "",
       "category": "commercial",
       "type": "image",
       "previewUrl": "https://drive.google.com/file/d/1AD1XV5R1T4S7aHl0EUMIOIm6ZQYUBlv1/preview",
@@ -532,7 +492,7 @@
     {
       "id": "1nA4RDzGPmA8D8rbl06HMTbGMTrsGlmlM",
       "title": "IMG_1365",
-      "subtitle": "Рекламные · Reels / Видео",
+      "subtitle": "",
       "category": "commercial",
       "type": "video",
       "previewUrl": "https://drive.google.com/file/d/1nA4RDzGPmA8D8rbl06HMTbGMTrsGlmlM/preview",
@@ -543,7 +503,7 @@
     {
       "id": "1Aa1w_hVMq09BbP43rYG2I0QRI4eO3l0g",
       "title": "photo_2026-10-23_15-00-03",
-      "subtitle": "Рекламные · Дизайн / Графика",
+      "subtitle": "",
       "category": "commercial",
       "type": "image",
       "previewUrl": "https://drive.google.com/file/d/1Aa1w_hVMq09BbP43rYG2I0QRI4eO3l0g/preview",
@@ -554,7 +514,7 @@
     {
       "id": "1qghUU70qgH2vJLjz3RoBsnhkHU2HqvF2",
       "title": "IMG_1354",
-      "subtitle": "Рекламные · Reels / Видео",
+      "subtitle": "",
       "category": "commercial",
       "type": "video",
       "previewUrl": "https://drive.google.com/file/d/1qghUU70qgH2vJLjz3RoBsnhkHU2HqvF2/preview",
@@ -565,7 +525,7 @@
     {
       "id": "1ueU-04pnaSktca298H0ukpAa2RGdp0sN",
       "title": "IMG_5849",
-      "subtitle": "Рекламные · Reels / Видео",
+      "subtitle": "",
       "category": "commercial",
       "type": "video",
       "previewUrl": "https://drive.google.com/file/d/1ueU-04pnaSktca298H0ukpAa2RGdp0sN/preview",
@@ -576,7 +536,7 @@
     {
       "id": "1Un5VBGXpCZN6t9kPXQK9b8985i-dUIj3",
       "title": "photo_2026-10-23_14-59-49",
-      "subtitle": "Рекламные · Дизайн / Графика",
+      "subtitle": "",
       "category": "commercial",
       "type": "image",
       "previewUrl": "https://drive.google.com/file/d/1Un5VBGXpCZN6t9kPXQK9b8985i-dUIj3/preview",
@@ -587,7 +547,7 @@
     {
       "id": "1bCPd7qCXMsgOPay5BfVf5xgvmbdO47z_",
       "title": "IMG_0091",
-      "subtitle": "Рекламные · Reels / Видео",
+      "subtitle": "",
       "category": "commercial",
       "type": "video",
       "previewUrl": "https://drive.google.com/file/d/1bCPd7qCXMsgOPay5BfVf5xgvmbdO47z_/preview",
@@ -598,7 +558,7 @@
     {
       "id": "1woUqi1tYoNH_LUQ5DMMlSdtgH9munONj",
       "title": "IMG_0229",
-      "subtitle": "Рекламные · Reels / Видео",
+      "subtitle": "",
       "category": "commercial",
       "type": "video",
       "previewUrl": "https://drive.google.com/file/d/1woUqi1tYoNH_LUQ5DMMlSdtgH9munONj/preview",
@@ -609,7 +569,7 @@
     {
       "id": "18rVzjdLchlZ6Ok-TcC6AYRHNkfjHhdot",
       "title": "photo_2026-10-23_14-59-32",
-      "subtitle": "Рекламные · Дизайн / Графика",
+      "subtitle": "",
       "category": "commercial",
       "type": "image",
       "previewUrl": "https://drive.google.com/file/d/18rVzjdLchlZ6Ok-TcC6AYRHNkfjHhdot/preview",
@@ -620,7 +580,7 @@
     {
       "id": "11p_aHRoBtlYzQiWIwRhEPgWrleh8gehr",
       "title": "IMG_8433",
-      "subtitle": "Рекламные · Reels / Видео",
+      "subtitle": "",
       "category": "commercial",
       "type": "video",
       "previewUrl": "https://drive.google.com/file/d/11p_aHRoBtlYzQiWIwRhEPgWrleh8gehr/preview",
@@ -631,7 +591,7 @@
     {
       "id": "1fb4wH42omfKEAb6l5jBeZ-TK8ObiBBMq",
       "title": "IMG_8412",
-      "subtitle": "Рекламные · Reels / Видео",
+      "subtitle": "",
       "category": "commercial",
       "type": "video",
       "previewUrl": "https://drive.google.com/file/d/1fb4wH42omfKEAb6l5jBeZ-TK8ObiBBMq/preview",
@@ -642,7 +602,7 @@
     {
       "id": "12YkQPfVBACFUk8wAACAojcjKQmJ5_nx2",
       "title": "IMG_6349",
-      "subtitle": "Рекламные · Reels / Видео",
+      "subtitle": "",
       "category": "commercial",
       "type": "video",
       "previewUrl": "https://drive.google.com/file/d/12YkQPfVBACFUk8wAACAojcjKQmJ5_nx2/preview",
@@ -653,7 +613,7 @@
     {
       "id": "1D472WsJcob16YlzshoPZ_no62756cpPI",
       "title": "IMG_6399",
-      "subtitle": "Рекламные · Reels / Видео",
+      "subtitle": "",
       "category": "commercial",
       "type": "video",
       "previewUrl": "https://drive.google.com/file/d/1D472WsJcob16YlzshoPZ_no62756cpPI/preview",
@@ -664,7 +624,7 @@
     {
       "id": "1Jnc0Soa-QsajMfWm18rgvVvmG2fNZCCx",
       "title": "photo_2026-10-23_14-58-29",
-      "subtitle": "Рестораны · Дизайн / Графика",
+      "subtitle": "",
       "category": "restaurants",
       "type": "image",
       "previewUrl": "https://drive.google.com/file/d/1Jnc0Soa-QsajMfWm18rgvVvmG2fNZCCx/preview",
@@ -675,7 +635,7 @@
     {
       "id": "1K0y-fHMJ2kDCgQAO0_pmTd2w_0Sg8fmx",
       "title": "IMG_0183",
-      "subtitle": "Рестораны · Reels / Видео",
+      "subtitle": "",
       "category": "restaurants",
       "type": "video",
       "previewUrl": "https://drive.google.com/file/d/1K0y-fHMJ2kDCgQAO0_pmTd2w_0Sg8fmx/preview",
@@ -686,7 +646,7 @@
     {
       "id": "13XW-azhbKE24lEMMaG5UlHArRCUdlhwc",
       "title": "photo_2026-10-23_14-58-24",
-      "subtitle": "Рестораны · Дизайн / Графика",
+      "subtitle": "",
       "category": "restaurants",
       "type": "image",
       "previewUrl": "https://drive.google.com/file/d/13XW-azhbKE24lEMMaG5UlHArRCUdlhwc/preview",
@@ -697,7 +657,7 @@
     {
       "id": "1wFBi_2F9dMXfHKtwpfr_BCyjPx4HN0xj",
       "title": "IMG_6613",
-      "subtitle": "Рестораны · Reels / Видео",
+      "subtitle": "",
       "category": "restaurants",
       "type": "video",
       "previewUrl": "https://drive.google.com/file/d/1wFBi_2F9dMXfHKtwpfr_BCyjPx4HN0xj/preview",
@@ -708,7 +668,7 @@
     {
       "id": "1kBjLvB0LI1S3DITkqvkifkhKKK23T6wI",
       "title": "IMG_6828",
-      "subtitle": "Рестораны · Reels / Видео",
+      "subtitle": "",
       "category": "restaurants",
       "type": "video",
       "previewUrl": "https://drive.google.com/file/d/1kBjLvB0LI1S3DITkqvkifkhKKK23T6wI/preview",
@@ -719,7 +679,7 @@
     {
       "id": "1m4zSP6bBeoRXFtO-Rji6chR8ncQsInIs",
       "title": "photo_2026-10-23_14-58-14",
-      "subtitle": "Рестораны · Дизайн / Графика",
+      "subtitle": "",
       "category": "restaurants",
       "type": "image",
       "previewUrl": "https://drive.google.com/file/d/1m4zSP6bBeoRXFtO-Rji6chR8ncQsInIs/preview",
@@ -730,7 +690,7 @@
     {
       "id": "1QP0mukdvTccnCJ8M-zfy00jFwDgqIex6",
       "title": "photo_2026-10-23_14-58-11",
-      "subtitle": "Рестораны · Дизайн / Графика",
+      "subtitle": "",
       "category": "restaurants",
       "type": "image",
       "previewUrl": "https://drive.google.com/file/d/1QP0mukdvTccnCJ8M-zfy00jFwDgqIex6/preview",
@@ -741,7 +701,7 @@
     {
       "id": "1-7gdPsBqvSwAgvJeNe-LafmymLWGHce0",
       "title": "IMG_5991",
-      "subtitle": "Рестораны · Reels / Видео",
+      "subtitle": "",
       "category": "restaurants",
       "type": "video",
       "previewUrl": "https://drive.google.com/file/d/1-7gdPsBqvSwAgvJeNe-LafmymLWGHce0/preview",
@@ -752,7 +712,7 @@
     {
       "id": "1tY_YLrv0SJC--7tP4kA9853E7nba2-r8",
       "title": "photo_2026-10-23_14-58-05",
-      "subtitle": "Рестораны · Дизайн / Графика",
+      "subtitle": "",
       "category": "restaurants",
       "type": "image",
       "previewUrl": "https://drive.google.com/file/d/1tY_YLrv0SJC--7tP4kA9853E7nba2-r8/preview",
@@ -763,7 +723,7 @@
     {
       "id": "1rowTRNjuU3u2fT1ImJk_d-DBjoTI-o6I",
       "title": "B331554E-B4D0-455F-8C36-1BBC205887F0",
-      "subtitle": "Рестораны · Reels / Видео",
+      "subtitle": "",
       "category": "restaurants",
       "type": "video",
       "previewUrl": "https://drive.google.com/file/d/1rowTRNjuU3u2fT1ImJk_d-DBjoTI-o6I/preview",
@@ -774,7 +734,7 @@
     {
       "id": "1ca2enalNbf9EApQ8AkL_kdetjVVUtQ8Y",
       "title": "IMG_2812",
-      "subtitle": "Рестораны · Reels / Видео",
+      "subtitle": "",
       "category": "restaurants",
       "type": "video",
       "previewUrl": "https://drive.google.com/file/d/1ca2enalNbf9EApQ8AkL_kdetjVVUtQ8Y/preview",
@@ -785,7 +745,7 @@
     {
       "id": "1WkA72u_c37uZ64TO5r83OA1cxSFn1R_m",
       "title": "photo_2026-10-23_14-57-53",
-      "subtitle": "Рестораны · Дизайн / Графика",
+      "subtitle": "",
       "category": "restaurants",
       "type": "image",
       "previewUrl": "https://drive.google.com/file/d/1WkA72u_c37uZ64TO5r83OA1cxSFn1R_m/preview",
@@ -796,7 +756,7 @@
     {
       "id": "1D6zXAErVNZP6h7klY2bDV3HxzJpdj4t0",
       "title": "photo_2026-10-23_14-57-50",
-      "subtitle": "Рестораны · Дизайн / Графика",
+      "subtitle": "",
       "category": "restaurants",
       "type": "image",
       "previewUrl": "https://drive.google.com/file/d/1D6zXAErVNZP6h7klY2bDV3HxzJpdj4t0/preview",
@@ -807,7 +767,7 @@
     {
       "id": "17R-mZj87meJBWmYHw0PhYFaTfSkdBMhD",
       "title": "IMG_1780",
-      "subtitle": "Рестораны · Reels / Видео",
+      "subtitle": "",
       "category": "restaurants",
       "type": "video",
       "previewUrl": "https://drive.google.com/file/d/17R-mZj87meJBWmYHw0PhYFaTfSkdBMhD/preview",
@@ -818,7 +778,7 @@
     {
       "id": "1q6jHN5H_Kl1i3esdIlxK_DPkLMYSvb3R",
       "title": "photo_2026-10-23_14-57-44",
-      "subtitle": "Рестораны · Дизайн / Графика",
+      "subtitle": "",
       "category": "restaurants",
       "type": "image",
       "previewUrl": "https://drive.google.com/file/d/1q6jHN5H_Kl1i3esdIlxK_DPkLMYSvb3R/preview",
@@ -829,7 +789,7 @@
     {
       "id": "1d431LNjpEVur5GLmiO1jl__UJ5Ogh_vC",
       "title": "IMG_1927",
-      "subtitle": "Рестораны · Reels / Видео",
+      "subtitle": "",
       "category": "restaurants",
       "type": "video",
       "previewUrl": "https://drive.google.com/file/d/1d431LNjpEVur5GLmiO1jl__UJ5Ogh_vC/preview",
@@ -840,7 +800,7 @@
     {
       "id": "1ZAuAdwMn4k98hX5WbUrpj4TxfEPmlgWM",
       "title": "photo_2026-10-23_14-57-39",
-      "subtitle": "Рестораны · Дизайн / Графика",
+      "subtitle": "",
       "category": "restaurants",
       "type": "image",
       "previewUrl": "https://drive.google.com/file/d/1ZAuAdwMn4k98hX5WbUrpj4TxfEPmlgWM/preview",
@@ -851,7 +811,7 @@
     {
       "id": "1lI_USmVZWxrDVOzYiVee7rwJHwM99GT_",
       "title": "IMG_3323",
-      "subtitle": "Рестораны · Reels / Видео",
+      "subtitle": "",
       "category": "restaurants",
       "type": "video",
       "previewUrl": "https://drive.google.com/file/d/1lI_USmVZWxrDVOzYiVee7rwJHwM99GT_/preview",
@@ -862,7 +822,7 @@
     {
       "id": "1I5Ivazt-JW_cmytkSCJUDBFCS5rlbdky",
       "title": "photo_2026-10-23_14-57-28",
-      "subtitle": "Рестораны · Дизайн / Графика",
+      "subtitle": "",
       "category": "restaurants",
       "type": "image",
       "previewUrl": "https://drive.google.com/file/d/1I5Ivazt-JW_cmytkSCJUDBFCS5rlbdky/preview",
@@ -873,7 +833,7 @@
     {
       "id": "1eGi8ubY4uODUCykZdssjubBHvAsUNFbC",
       "title": "IMG_5657",
-      "subtitle": "Рестораны · Reels / Видео",
+      "subtitle": "",
       "category": "restaurants",
       "type": "video",
       "previewUrl": "https://drive.google.com/file/d/1eGi8ubY4uODUCykZdssjubBHvAsUNFbC/preview",
@@ -884,7 +844,7 @@
     {
       "id": "1i6rYehU6Wrie_dfrGmcMwK1jwm-UvXXM",
       "title": "photo_2026-10-23_14-57-16",
-      "subtitle": "Рестораны · Дизайн / Графика",
+      "subtitle": "",
       "category": "restaurants",
       "type": "image",
       "previewUrl": "https://drive.google.com/file/d/1i6rYehU6Wrie_dfrGmcMwK1jwm-UvXXM/preview",
@@ -895,7 +855,7 @@
     {
       "id": "1fCLoQXaz7433C5m9Ue1OqXj-EZaGzHi6",
       "title": "photo_2026-10-23_14-57-14",
-      "subtitle": "Рестораны · Дизайн / Графика",
+      "subtitle": "",
       "category": "restaurants",
       "type": "image",
       "previewUrl": "https://drive.google.com/file/d/1fCLoQXaz7433C5m9Ue1OqXj-EZaGzHi6/preview",
@@ -906,7 +866,7 @@
     {
       "id": "1RHdQCZBzeh02jTis5nR8XPg-BUjsh1Cp",
       "title": "IMG_5681",
-      "subtitle": "Рестораны · Reels / Видео",
+      "subtitle": "",
       "category": "restaurants",
       "type": "video",
       "previewUrl": "https://drive.google.com/file/d/1RHdQCZBzeh02jTis5nR8XPg-BUjsh1Cp/preview",
@@ -917,7 +877,7 @@
     {
       "id": "1YMPM5kAzVFDh10FTsEwX4030e64lEfRc",
       "title": "IMG_7108",
-      "subtitle": "Рестораны · Reels / Видео",
+      "subtitle": "",
       "category": "restaurants",
       "type": "video",
       "previewUrl": "https://drive.google.com/file/d/1YMPM5kAzVFDh10FTsEwX4030e64lEfRc/preview",
@@ -928,7 +888,7 @@
     {
       "id": "1Bec348jqdx9GB3RgbqpaMbNRV14uuxmL",
       "title": "IMG_4501",
-      "subtitle": "Рестораны · Reels / Видео",
+      "subtitle": "",
       "category": "restaurants",
       "type": "video",
       "previewUrl": "https://drive.google.com/file/d/1Bec348jqdx9GB3RgbqpaMbNRV14uuxmL/preview",
@@ -939,7 +899,7 @@
     {
       "id": "1F_L9EOgh6cnHHzxqKVgTn-S_NSeTxTxE",
       "title": "photo_2026-10-23_14-57-01",
-      "subtitle": "Рестораны · Дизайн / Графика",
+      "subtitle": "",
       "category": "restaurants",
       "type": "image",
       "previewUrl": "https://drive.google.com/file/d/1F_L9EOgh6cnHHzxqKVgTn-S_NSeTxTxE/preview",
@@ -950,7 +910,7 @@
     {
       "id": "1Un2AT-ebZE-STGVXfT-lJjLKh1-q3Ujk",
       "title": "photo_2026-10-23_14-56-48",
-      "subtitle": "Рестораны · Дизайн / Графика",
+      "subtitle": "",
       "category": "restaurants",
       "type": "image",
       "previewUrl": "https://drive.google.com/file/d/1Un2AT-ebZE-STGVXfT-lJjLKh1-q3Ujk/preview",
@@ -961,7 +921,7 @@
     {
       "id": "1KQOtmquv46JV28Ee5RCA8Us8q5hRrXij",
       "title": "IMG_6729",
-      "subtitle": "Рестораны · Reels / Видео",
+      "subtitle": "",
       "category": "restaurants",
       "type": "video",
       "previewUrl": "https://drive.google.com/file/d/1KQOtmquv46JV28Ee5RCA8Us8q5hRrXij/preview",
@@ -972,7 +932,7 @@
     {
       "id": "19FRq281oAKL2d4eR2gUoAPJ0duN3TLaX",
       "title": "photo_2026-10-23_14-56-26",
-      "subtitle": "Рестораны · Дизайн / Графика",
+      "subtitle": "",
       "category": "restaurants",
       "type": "image",
       "previewUrl": "https://drive.google.com/file/d/19FRq281oAKL2d4eR2gUoAPJ0duN3TLaX/preview",
@@ -983,7 +943,7 @@
     {
       "id": "1QcBaY8_OIvAtfsZPSY8PPzWPuc9uMRrM",
       "title": "IMG_6906",
-      "subtitle": "Рестораны · Reels / Видео",
+      "subtitle": "",
       "category": "restaurants",
       "type": "video",
       "previewUrl": "https://drive.google.com/file/d/1QcBaY8_OIvAtfsZPSY8PPzWPuc9uMRrM/preview",
@@ -994,7 +954,7 @@
     {
       "id": "1yKdmf945gdm66y5sijkdvaG7d5SKhQPH",
       "title": "photo_2026-10-23_14-55-50",
-      "subtitle": "Рестораны · Дизайн / Графика",
+      "subtitle": "",
       "category": "restaurants",
       "type": "image",
       "previewUrl": "https://drive.google.com/file/d/1yKdmf945gdm66y5sijkdvaG7d5SKhQPH/preview",
@@ -1005,7 +965,7 @@
     {
       "id": "1vtYWHY4k3uENMUGtMVIcmLD9jzGPxjAU",
       "title": "IMG_8221",
-      "subtitle": "Рестораны · Reels / Видео",
+      "subtitle": "",
       "category": "restaurants",
       "type": "video",
       "previewUrl": "https://drive.google.com/file/d/1vtYWHY4k3uENMUGtMVIcmLD9jzGPxjAU/preview",
@@ -1016,7 +976,7 @@
     {
       "id": "1-Of7QO7GCNPfdvXCeNEbrc4YsPQZJQJD",
       "title": "photo_2026-10-23_14-55-43",
-      "subtitle": "Рестораны · Дизайн / Графика",
+      "subtitle": "",
       "category": "restaurants",
       "type": "image",
       "previewUrl": "https://drive.google.com/file/d/1-Of7QO7GCNPfdvXCeNEbrc4YsPQZJQJD/preview",
@@ -1027,7 +987,7 @@
     {
       "id": "1I450aFr9pxSuvL_HchQuzNEGPvWT0b9h",
       "title": "IMG_5852",
-      "subtitle": "Рестораны · Reels / Видео",
+      "subtitle": "",
       "category": "restaurants",
       "type": "video",
       "previewUrl": "https://drive.google.com/file/d/1I450aFr9pxSuvL_HchQuzNEGPvWT0b9h/preview",
@@ -1038,7 +998,7 @@
     {
       "id": "1auOPdtmIKn5CxS7vsjNU-9K1ON88pzLG",
       "title": "IMG_4566",
-      "subtitle": "Рестораны · Reels / Видео",
+      "subtitle": "",
       "category": "restaurants",
       "type": "video",
       "previewUrl": "https://drive.google.com/file/d/1auOPdtmIKn5CxS7vsjNU-9K1ON88pzLG/preview",
@@ -1049,7 +1009,7 @@
     {
       "id": "1SPefuDk4vXu5-k5yJrIujemhpTd8puyu",
       "title": "photo_2026-10-23_14-55-23",
-      "subtitle": "Рестораны · Дизайн / Графика",
+      "subtitle": "",
       "category": "restaurants",
       "type": "image",
       "previewUrl": "https://drive.google.com/file/d/1SPefuDk4vXu5-k5yJrIujemhpTd8puyu/preview",
@@ -1060,7 +1020,7 @@
     {
       "id": "1coiZSUqBlTdjgQxVmk-XG8OkPy-T9SNh",
       "title": "photo_2026-10-23_14-54-50",
-      "subtitle": "Дизайн · Дизайн / Графика",
+      "subtitle": "",
       "category": "design",
       "type": "image",
       "previewUrl": "https://drive.google.com/file/d/1coiZSUqBlTdjgQxVmk-XG8OkPy-T9SNh/preview",
@@ -1071,7 +1031,7 @@
     {
       "id": "1w4bmjv0a1eSh3Gcq1SJom9u5QDtk1foq",
       "title": "photo_2026-10-23_14-54-49",
-      "subtitle": "Дизайн · Дизайн / Графика",
+      "subtitle": "",
       "category": "design",
       "type": "image",
       "previewUrl": "https://drive.google.com/file/d/1w4bmjv0a1eSh3Gcq1SJom9u5QDtk1foq/preview",
@@ -1082,7 +1042,7 @@
     {
       "id": "19AfdG8B0UOIoaf3Hu1WXeiHmbAfgqyqO",
       "title": "photo_2026-10-23_14-54-45",
-      "subtitle": "Дизайн · Дизайн / Графика",
+      "subtitle": "",
       "category": "design",
       "type": "image",
       "previewUrl": "https://drive.google.com/file/d/19AfdG8B0UOIoaf3Hu1WXeiHmbAfgqyqO/preview",

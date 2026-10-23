@@ -3,65 +3,27 @@ const crypto = require('crypto');
 const https = require('https');
 const path = require('path');
 
-const FOLDER_ID = '1jPSdn-z-C3uglhDuXSXQu9N7Ah3v98gz';
+const PARENT_FOLDER_ID = '1jPSdn-z-C3uglhDuXSXQu9N7Ah3v98gz';
 const CRED_PATH = path.join(__dirname, 'credentials.json');
 const OUTPUT_FILE = path.join(__dirname, 'videos.json');
 
-// Интервал проверки в миллисекундах (5 секунд — оптимальный реальный тайминг без блокировок API)
-const CHECK_INTERVAL_MS = 5000;
-
-let lastToken = null;
-let tokenExpiresAt = 0;
-let lastHash = '';
-
-// Умная категоризация
-function detectCategory(name, desc) {
-  const text = `${name || ''} ${desc || ''}`.toLowerCase();
-
-  if (
-    text.includes('эксперт') || text.includes('разбор') || text.includes('совет') ||
-    text.includes('урок') || text.includes('алгоритм') || text.includes('интервью') ||
-    text.includes('обучени') || text.includes('мышлени') || text.includes('стратеги') ||
-    text.includes('как ') || text.includes('топ') || text.includes('фишк') ||
-    text.includes('книг') || text.includes('ошибк')
-  ) {
-    return 'expert';
-  }
-
-  if (
-    text.includes('реклам') || text.includes('бренд') || text.includes('ugc') ||
-    text.includes('промо') || text.includes('обзор') || text.includes('товар') ||
-    text.includes('магазин') || text.includes('кофейн') || text.includes('авто') ||
-    text.includes('студи') || text.includes('дроп') || text.includes('распаковк') ||
-    text.includes('заказ') || text.includes('twoeye')
-  ) {
-    return 'commercial';
-  }
-
-  if (
-    text.includes('лайф') || text.includes('life') || text.includes('день') ||
-    text.includes('влог') || text.includes('атмосфер') || text.includes('ноч') ||
-    text.includes('закат') || text.includes('стрит') || text.includes('прогулк') ||
-    text.includes('коворкинг') || text.includes('бэкстейдж') || text.includes('chechevata') ||
-    text.includes('эстетик')
-  ) {
-    return 'lifestyle';
-  }
-
-  return 'reels';
-}
+// Соответствие названий подпапок и системных ключей категорий
+const FOLDER_CATEGORY_MAP = {
+  'SMM': 'smm',
+  'UGC контент-завод': 'ugc',
+  'Рекламные': 'commercial',
+  'Рестораны': 'restaurants',
+  'Атмосфера': 'lifestyle',
+  'Дизайн': 'design'
+};
 
 function getAccessToken(creds) {
-  const now = Math.floor(Date.now() / 1000);
-  if (lastToken && tokenExpiresAt > now + 60) {
-    return Promise.resolve(lastToken);
-  }
-
   return new Promise((resolve, reject) => {
+    const now = Math.floor(Date.now() / 1000);
     const header = { alg: 'RS256', typ: 'JWT' };
     const claimSet = {
       iss: creds.client_email,
-      scope: 'https://www.googleapis.com/auth/drive.readonly',
+      scope: 'https://www.googleapis.com/auth/drive',
       aud: creds.token_uri,
       exp: now + 3600,
       iat: now
@@ -89,13 +51,8 @@ function getAccessToken(creds) {
       res.on('end', () => {
         try {
           const json = JSON.parse(body);
-          if (json.access_token) {
-            lastToken = json.access_token;
-            tokenExpiresAt = now + 3500;
-            resolve(lastToken);
-          } else {
-            reject(new Error(JSON.stringify(json)));
-          }
+          if (json.access_token) resolve(json.access_token);
+          else reject(new Error(JSON.stringify(json)));
         } catch (e) {
           reject(e);
         }
@@ -107,20 +64,14 @@ function getAccessToken(creds) {
   });
 }
 
-function fetchDriveFolderFiles(token) {
+function queryFiles(token, query, fields) {
   return new Promise((resolve, reject) => {
-    const query = encodeURIComponent(`'${FOLDER_ID}' in parents and mimeType contains 'video/' and trashed = false`);
-    const fields = encodeURIComponent('files(id,name,mimeType,description,createdTime,size)');
-    const orderBy = encodeURIComponent('createdTime desc');
-    const pathUrl = `/drive/v3/files?q=${query}&fields=${fields}&orderBy=${orderBy}&pageSize=100`;
-
+    const pathUrl = `/drive/v3/files?q=${encodeURIComponent(query)}&fields=${encodeURIComponent(fields)}&pageSize=100`;
     const req = https.request({
       hostname: 'www.googleapis.com',
       path: pathUrl,
       method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
+      headers: { 'Authorization': `Bearer ${token}` }
     }, (res) => {
       let body = '';
       res.on('data', chunk => body += chunk);
@@ -137,49 +88,113 @@ function fetchDriveFolderFiles(token) {
   });
 }
 
-async function checkAndSync() {
+async function run() {
   if (!fs.existsSync(CRED_PATH)) return;
+  const creds = JSON.parse(fs.readFileSync(CRED_PATH, 'utf8'));
+  const token = await getAccessToken(creds);
 
-  try {
-    const creds = JSON.parse(fs.readFileSync(CRED_PATH, 'utf8'));
-    const token = await getAccessToken(creds);
-    const driveRes = await fetchDriveFolderFiles(token);
+  // 1. Получаем список подпапок внутри главной папки
+  const subfoldersRes = await queryFiles(token, `'${PARENT_FOLDER_ID}' in parents and mimeType = 'application/vnd.google-apps.folder' and trashed = false`, 'files(id,name)');
+  const subfolders = subfoldersRes.files || [];
 
-    const files = driveRes.files || [];
-    const currentHash = JSON.stringify(files.map(f => `${f.id}:${f.name}`));
-
-    // Записываем только если состав файлов изменился (добавились или удалились)
-    if (currentHash !== lastHash) {
-      lastHash = currentHash;
-      const formattedVideos = files.map((file, idx) => {
-        const cleanTitle = file.name.replace(/\.[a-zA-Z0-9]+$/, '');
-        const category = detectCategory(cleanTitle, file.description);
-
-        return {
-          id: file.id,
-          num: idx + 1,
-          title: cleanTitle,
-          subtitle: file.description || 'Вертикальное видео · Reels / Shorts',
-          category: category,
-          previewUrl: `https://drive.google.com/file/d/${file.id}/preview`,
-          streamUrl: `https://drive.google.com/uc?export=download&id=${file.id}`,
-          thumbnailUrl: `https://drive.google.com/thumbnail?id=${file.id}&sz=w1000`,
-          createdTime: file.createdTime
-        };
-      });
-
-      fs.writeFileSync(OUTPUT_FILE, JSON.stringify(formattedVideos, null, 2), 'utf8');
-      const timeStr = new Date().toLocaleTimeString();
-      console.log(`[${timeStr}] Синхронизировано: ${formattedVideos.length} видео из Google Диска.`);
-    }
-  } catch (err) {
-    // Тихо продолжаем цикл при мелких сетевых сбоях
+  const folderMap = {};
+  for (const f of subfolders) {
+    const cat = FOLDER_CATEGORY_MAP[f.name] || 'reels';
+    folderMap[f.id] = { name: f.name, category: cat };
   }
+
+  // 2. Ищем все медиафайлы (видео и фото) внутри этих подпапок + в корневой папке
+  const folderIds = [PARENT_FOLDER_ID, ...subfolders.map(f => f.id)];
+  const parentQuery = folderIds.map(id => `'${id}' in parents`).join(' or ');
+  const mediaQuery = `(${parentQuery}) and (mimeType contains 'video/' or mimeType contains 'image/') and trashed = false`;
+  const fields = 'files(id,name,mimeType,parents,description,createdTime,size)';
+
+  const filesRes = await queryFiles(token, mediaQuery, fields);
+  const files = filesRes.files || [];
+
+  // Аватарка из указанной ссылки пользователем (ID: 1vq3d-nN7rCsZ-0P87f91VX048iDaYDDd)
+  const avatarUrl = 'https://drive.google.com/thumbnail?id=1vq3d-nN7rCsZ-0P87f91VX048iDaYDDd&sz=w1200';
+
+  // Файлы соцсетей для карточек
+  const socialScreenshots = {
+    tg: [],
+    insta: [],
+    tiktok: []
+  };
+
+  const mediaItems = [];
+
+  for (const file of files) {
+    const cleanTitle = file.name.replace(/\.[a-zA-Z0-9]+$/, '').toLowerCase();
+
+    // Исключаем скриншоты соцсетей и аватарку из общей сетки работ
+    if (/^(tg1|tg2)$/.test(cleanTitle)) {
+      socialScreenshots.tg.push({
+        id: file.id,
+        name: cleanTitle,
+        url: `https://drive.google.com/thumbnail?id=${file.id}&sz=w1000`
+      });
+      continue;
+    }
+    if (/^(inst1|inst2|inst3|inst4)$/.test(cleanTitle)) {
+      socialScreenshots.insta.push({
+        id: file.id,
+        name: cleanTitle,
+        url: `https://drive.google.com/thumbnail?id=${file.id}&sz=w1000`
+      });
+      continue;
+    }
+    if (/^(tiktok1|tiktok2)$/.test(cleanTitle)) {
+      socialScreenshots.tiktok.push({
+        id: file.id,
+        name: cleanTitle,
+        url: `https://drive.google.com/thumbnail?id=${file.id}&sz=w1000`
+      });
+      continue;
+    }
+    if (file.id === '1vq3d-nN7rCsZ-0P87f91VX048iDaYDDd' || file.id === '1eGfoZHGgGNPiR51DuTGN5VMeaIb9Z6ag') {
+      continue; // аватарку не выводим в общую галерею работ
+    }
+
+    const isImage = file.mimeType.startsWith('image/');
+
+    // Определяем категорию по родительской папке
+    let category = 'reels';
+    let folderName = 'Портфолио';
+    if (file.parents && file.parents.length > 0) {
+      const pId = file.parents[0];
+      if (folderMap[pId]) {
+        category = folderMap[pId].category;
+        folderName = folderMap[pId].name;
+      }
+    }
+
+    mediaItems.push({
+      id: file.id,
+      title: file.name.replace(/\.[a-zA-Z0-9]+$/, ''),
+      subtitle: file.description || '',
+      category: category,
+      type: isImage ? 'image' : 'video',
+      previewUrl: `https://drive.google.com/file/d/${file.id}/preview`,
+      streamUrl: `https://drive.google.com/uc?export=download&id=${file.id}`,
+      thumbnailUrl: `https://drive.google.com/thumbnail?id=${file.id}&sz=w1000`,
+      createdTime: file.createdTime
+    });
+  }
+
+  // Сортируем соц. скриншоты по алфавиту (tg1, tg2...)
+  socialScreenshots.tg.sort((a,b) => a.name.localeCompare(b.name));
+  socialScreenshots.insta.sort((a,b) => a.name.localeCompare(b.name));
+  socialScreenshots.tiktok.sort((a,b) => a.name.localeCompare(b.name));
+
+  const result = {
+    avatarUrl: avatarUrl,
+    socialScreenshots: socialScreenshots,
+    items: mediaItems
+  };
+
+  fs.writeFileSync(OUTPUT_FILE, JSON.stringify(result, null, 2), 'utf8');
+  console.log(`[Sync] Работ в сетке: ${mediaItems.length}. TG скриншотов: ${socialScreenshots.tg.length}. Insta: ${socialScreenshots.insta.length}. TT: ${socialScreenshots.tiktok.length}.`);
 }
 
-console.log(`[Google Drive Live Watcher] Запущен мониторинг папки ${FOLDER_ID}`);
-console.log(`[Google Drive Live Watcher] Проверка каждые ${CHECK_INTERVAL_MS / 1000} сек. Нажмите Ctrl+C для остановки.`);
-
-// Первичный опрос и запуск цикличного наблюдателя
-checkAndSync();
-setInterval(checkAndSync, CHECK_INTERVAL_MS);
+run().catch(console.error);

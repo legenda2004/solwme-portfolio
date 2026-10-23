@@ -25,7 +25,7 @@
         <img src="logo-solwme.svg" alt="саня солвми" class="brand-lettering-svg">
       </a>
 
-      <!-- Навигация: Главная / Работы / Обо мне / Контакты -->
+      <!-- Навигация: Обо мне / Работы / Контакты с плавной анимацией и индикатором -->
       <nav class="nav-switch" role="tablist">
         <a href="#about" class="nav-tab">Обо мне</a>
         <a href="#portfolio" class="nav-tab active">Работы</a>
@@ -49,10 +49,10 @@
     <section class="resume-hero" id="about">
       <div class="resume-card">
         
-        <!-- Фотография Сани (загружается из Google Диска или дефолтный стильный плейсхолдер) -->
+        <!-- Фотография Сани из Google Диска -->
         <div class="resume-photo-col">
           <div class="photo-wrapper">
-            <img id="creatorAvatar" src="card-sample.jpg" alt="Александра — создатель контента" class="creator-photo">
+            <img id="creatorAvatar" src="https://drive.google.com/thumbnail?id=1vq3d-nN7rCsZ-0P87f91VX048iDaYDDd&sz=w1200" alt="Александра — создатель контента" class="creator-photo" loading="eager">
             <div class="city-tag">ВРН / СПБ</div>
           </div>
 
@@ -159,7 +159,7 @@
           <p class="feed-desc">Видео и дизайн-макеты, синхронизированные из папки Google Диска.</p>
         </div>
 
-        <!-- Точные папки-вкладки по запросу Сани -->
+        <!-- Точные папки-вкладки -->
         <div class="filter-pills-wrapper" role="tablist" aria-label="Категории портфолио">
           <button class="filter-pill active" data-filter="all">Все работы</button>
           <button class="filter-pill" data-filter="restaurants">Рестораны</button>
@@ -185,7 +185,7 @@
         <p class="section-subtitle">Свяжитесь со мной напрямую в удобной соцсети или мессенджере</p>
       </div>
 
-      <!-- Карточки Instagram, Telegram, TikTok со статистикой -->
+      <!-- Карточки Instagram, Telegram, TikTok со скриншотами профилей и статистики -->
       <div class="social-cards-grid">
         
         <!-- Telegram Card -->
@@ -201,9 +201,12 @@
               <p>@solwmees · Личный блог и бэкстейдж</p>
             </div>
           </div>
-          <div class="stats-preview-box">
-            <span class="stats-placeholder-text">Живая аудитория и активные охваты</span>
+          
+          <!-- Скриншоты tg1.jpg и tg2.jpg -->
+          <div class="social-screens-row" id="tgScreensContainer">
+            <!-- Подставляется динамически или запасные карточки -->
           </div>
+
           <a href="https://t.me/solwmees" target="_blank" rel="noopener" class="social-link-btn tg-btn">
             Перейти в Telegram
           </a>
@@ -224,9 +227,12 @@
               <p>@solwme · Reels и визуал</p>
             </div>
           </div>
-          <div class="stats-preview-box">
-            <span class="stats-placeholder-text">Миллионные просмотры и вирусные рилсы</span>
+
+          <!-- Скриншоты inst1.jpg, inst2.jpg, inst3.jpg, inst4.jpg -->
+          <div class="social-screens-grid" id="instaScreensContainer">
+            <!-- Подставляется динамически -->
           </div>
+
           <a href="https://www.instagram.com/solwme?igsh=MWozbmMzMGZweWQ1Yw==" target="_blank" rel="noopener" class="social-link-btn insta-btn">
             Перейти в Instagram
           </a>
@@ -242,20 +248,23 @@
             </div>
             <div>
               <h3>TikTok</h3>
-              <p>@solwme · Тренды и динамика</p>
+              <p>@solwmees · Тренды и динамика</p>
             </div>
           </div>
-          <div class="stats-preview-box">
-            <span class="stats-placeholder-text">Органические просмотры и UGC-контент</span>
+
+          <!-- Скриншоты tiktok1.jpg и tiktok2.jpg -->
+          <div class="social-screens-row" id="ttScreensContainer">
+            <!-- Подставляется динамически -->
           </div>
-          <a href="https://t.me/solwmees" target="_blank" rel="noopener" class="social-link-btn tt-btn">
-            Открыть TikTok
+
+          <a href="https://www.tiktok.com/@solwmees?_r=1&_t=ZS-93VJDXRP4d6" target="_blank" rel="noopener" class="social-link-btn tt-btn">
+            Перейти в TikTok
           </a>
         </div>
 
       </div>
 
-      <!-- Дополнительные прямые контакты (почта и Telegram) -->
+      <!-- Дополнительные прямые контакты (почта и локации) -->
       <div class="extra-contacts-bar">
         <a href="mailto:Solwme@yandex.ru" class="extra-contact-item">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -277,6 +286,17 @@
     </section>
 
   </main>
+
+  <!-- Модальное окно для полноэкранного просмотра фото и видео -->
+  <div class="lightbox-modal" id="lightboxModal" aria-hidden="true">
+    <div class="lightbox-backdrop" id="lightboxBackdrop"></div>
+    <div class="lightbox-content">
+      <button class="lightbox-close" id="lightboxClose" aria-label="Закрыть">✕</button>
+      <div class="lightbox-body" id="lightboxBody">
+        <!-- Медиа контент -->
+      </div>
+    </div>
+  </div>
 
   <!-- Футер -->
   <footer class="site-footer">

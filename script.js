@@ -6,19 +6,88 @@
 document.addEventListener("DOMContentLoaded", () => {
   const videoGrid = document.getElementById("videoFeed");
   const filterPills = document.querySelectorAll(".filter-pill");
+  const navTabs = document.querySelectorAll(".nav-tab");
   const creatorAvatar = document.getElementById("creatorAvatar");
+
+  // Контейнеры скриншотов соцсетей
+  const tgScreensContainer = document.getElementById("tgScreensContainer");
+  const instaScreensContainer = document.getElementById("instaScreensContainer");
+  const ttScreensContainer = document.getElementById("ttScreensContainer");
+
+  // Модальное окно Lightbox
+  const lightboxModal = document.getElementById("lightboxModal");
+  const lightboxBody = document.getElementById("lightboxBody");
+  const lightboxClose = document.getElementById("lightboxClose");
+  const lightboxBackdrop = document.getElementById("lightboxBackdrop");
+
   let allMedia = [];
 
-  // Загружаем данные из videos.json
+  // 1. Плавная анимация навигации в шапке (Обо мне, Работы, Контакты)
+  navTabs.forEach((tab) => {
+    tab.addEventListener("click", (e) => {
+      navTabs.forEach((t) => t.classList.remove("active"));
+      tab.classList.add("active");
+    });
+  });
+
+  // Отслеживание скролла для автоматической смены активного таба
+  const sections = document.querySelectorAll("section[id]");
+  window.addEventListener("scroll", () => {
+    let current = "";
+    const scrollY = window.pageYOffset;
+
+    sections.forEach((section) => {
+      const sectionHeight = section.offsetHeight;
+      const sectionTop = section.offsetTop - 120;
+      if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
+        current = section.getAttribute("id");
+      }
+    });
+
+    navTabs.forEach((tab) => {
+      tab.classList.remove("active");
+      if (tab.getAttribute("href") === `#${current}`) {
+        tab.classList.add("active");
+      }
+    });
+  }, { passive: true });
+
+  // 2. Управление Lightbox
+  function openLightbox(htmlContent) {
+    lightboxBody.innerHTML = htmlContent;
+    lightboxModal.classList.add("active");
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeLightbox() {
+    lightboxModal.classList.remove("active");
+    lightboxBody.innerHTML = "";
+    document.body.style.overflow = "";
+  }
+
+  if (lightboxClose) lightboxClose.addEventListener("click", closeLightbox);
+  if (lightboxBackdrop) lightboxBackdrop.addEventListener("click", closeLightbox);
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && lightboxModal.classList.contains("active")) {
+      closeLightbox();
+    }
+  });
+
+  // 3. Загрузка данных из videos.json
   async function loadData() {
     try {
       const res = await fetch(`videos.json?t=${Date.now()}`);
       if (res.ok) {
         const data = await res.json();
-        
-        // Если есть отдельная аватарка в корне папки Google Диска
+
+        // Обновляем аватарку
         if (data.avatarUrl && creatorAvatar) {
           creatorAvatar.src = data.avatarUrl;
+        }
+
+        // Рендерим скриншоты соцсетей (tg1/tg2, inst1..4, tiktok1/2)
+        if (data.socialScreenshots) {
+          renderSocialScreens(data.socialScreenshots);
         }
 
         allMedia = Array.isArray(data) ? data : (data.items || []);
@@ -29,23 +98,58 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  // Рендер скриншотов в карточках соцсетей
+  function renderSocialScreens(screens) {
+    if (tgScreensContainer && screens.tg) {
+      tgScreensContainer.innerHTML = screens.tg.map((s) => `
+        <div class="screen-thumb-box" data-full="${s.url}">
+          <img src="${s.url}" alt="Telegram статистика" class="screen-thumb-img" loading="lazy">
+        </div>
+      `).join("");
+    }
+
+    if (instaScreensContainer && screens.insta) {
+      instaScreensContainer.innerHTML = screens.insta.map((s) => `
+        <div class="screen-thumb-box" data-full="${s.url}">
+          <img src="${s.url}" alt="Instagram статистика" class="screen-thumb-img" loading="lazy">
+        </div>
+      `).join("");
+    }
+
+    if (ttScreensContainer && screens.tiktok) {
+      ttScreensContainer.innerHTML = screens.tiktok.map((s) => `
+        <div class="screen-thumb-box" data-full="${s.url}">
+          <img src="${s.url}" alt="TikTok статистика" class="screen-thumb-img" loading="lazy">
+        </div>
+      `).join("");
+    }
+
+    // Клик по любому скриншоту открывает его в полном размере
+    document.querySelectorAll(".screen-thumb-box").forEach((box) => {
+      box.addEventListener("click", () => {
+        const fullUrl = box.getAttribute("data-full");
+        openLightbox(`<img src="${fullUrl}" class="lightbox-img" alt="Статистика">`);
+      });
+    });
+  }
+
+  // 4. Рендер основной сетки работ
   function renderFeed(items) {
     videoGrid.innerHTML = "";
 
-    // Если папка пока пустая — выводим аккуратный статус
     if (!items || items.length === 0) {
       videoGrid.innerHTML = `
         <div class="empty-feed-placeholder" style="grid-column: 1 / -1; text-align: center; padding: 60px 20px;">
           <div class="empty-feed-spinner" style="margin: 0 auto 16px auto;"></div>
           <p class="empty-feed-text" style="color: var(--text-muted); font-size: 1rem;">
-            Работы синхронизируются с Google Диском... Загрузите видео или фото в соответствующие подпапки на Диске.
+            Работы синхронизируются с Google Диском...
           </p>
         </div>
       `;
       return;
     }
 
-    items.forEach((item, index) => {
+    items.forEach((item) => {
       const card = document.createElement("article");
       card.className = "reel-card";
       card.setAttribute("data-id", item.id);
@@ -53,49 +157,64 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const isImage = item.type === "image";
 
-      card.innerHTML = `
-        <header class="reel-card-header">
-          <h2 class="reel-card-title">${index + 1}. ${item.title}</h2>
-          <p class="reel-card-subtitle">${item.subtitle}</p>
-        </header>
-
-        ${isImage ? `
-          <!-- Карточка графики / дизайна / фото -->
-          <div class="card-image-box">
-            <img src="${item.thumbnailUrl || item.streamUrl}" alt="${item.title}" class="card-img-preview" loading="lazy">
-            <span class="card-image-badge">Дизайн / Фото</span>
-            <a href="https://t.me/solwmees" target="_blank" rel="noopener" class="reel-tg-btn" title="Обсудить в Telegram" aria-label="Telegram">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.75-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
-              </svg>
-            </a>
+      if (isImage) {
+        // Карточка фото / дизайна (без номера, без технического имени файла)
+        card.innerHTML = `
+          <div class="card-image-box" data-full="${item.thumbnailUrl || item.streamUrl}">
+            <img src="${item.thumbnailUrl || item.streamUrl}" alt="Дизайн" class="card-img-preview" loading="lazy">
+            <div class="card-img-overlay">
+              <span class="view-zoom-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                  <line x1="11" y1="8" x2="11" y2="14"></line>
+                  <line x1="8" y1="11" x2="14" y2="11"></line>
+                </svg>
+              </span>
+            </div>
           </div>
-        ` : `
-          <!-- Видеоплеер Google Drive 9:16 -->
-          <div class="reel-player-box">
-            <iframe 
-              class="reel-drive-iframe" 
-              src="${item.previewUrl}" 
-              allow="autoplay; encrypted-media; fullscreen" 
-              allowfullscreen 
-              loading="lazy"
-              title="${item.title}">
-            </iframe>
+        `;
 
-            <a href="https://t.me/solwmees" target="_blank" rel="noopener" class="reel-tg-btn" title="Обсудить в Telegram" aria-label="Telegram">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.75-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
-              </svg>
-            </a>
+        card.querySelector(".card-image-box").addEventListener("click", () => {
+          openLightbox(`<img src="${item.thumbnailUrl || item.streamUrl}" class="lightbox-img" alt="Дизайн">`);
+        });
+
+      } else {
+        // Карточка видео 9:16 со стабильным постером
+        card.innerHTML = `
+          <div class="reel-player-box" data-preview="${item.previewUrl}">
+            <img src="${item.thumbnailUrl}" alt="Видео Reels" class="reel-video-poster" loading="lazy">
+            
+            <div class="reel-play-overlay">
+              <div class="reel-play-btn-circle">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+                  <polygon points="6 4 20 12 6 20 6 4"></polygon>
+                </svg>
+              </div>
+            </div>
           </div>
-        `}
-      `;
+        `;
+
+        // Клик по видео открывает полноэкранный чистый просмотр в Lightbox без мерцания и релоадов
+        card.querySelector(".reel-player-box").addEventListener("click", () => {
+          openLightbox(`
+            <div class="lightbox-video-wrap">
+              <iframe 
+                class="lightbox-iframe" 
+                src="${item.previewUrl}" 
+                allow="autoplay; encrypted-media; fullscreen" 
+                allowfullscreen>
+              </iframe>
+            </div>
+          `);
+        });
+      }
 
       videoGrid.appendChild(card);
     });
   }
 
-  // Фильтрация по новым папкам
+  // 5. Фильтрация по категориям (Рестораны, Рекламные, SMM, UGC, Дизайн, Атмосфера)
   filterPills.forEach((btn) => {
     btn.addEventListener("click", () => {
       filterPills.forEach((b) => b.classList.remove("active"));
@@ -112,7 +231,4 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   loadData();
-
-  // Автопроверка обновлений
-  setInterval(loadData, 5000);
 });

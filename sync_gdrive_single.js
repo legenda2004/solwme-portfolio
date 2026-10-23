@@ -112,18 +112,51 @@ async function run() {
   const filesRes = await queryFiles(token, mediaQuery, fields);
   const files = filesRes.files || [];
 
-  // Проверяем, есть ли аватарка (photo.jpg, avatar.jpg, sanya.jpg и т.д.)
-  let avatarUrl = '';
+  // Аватарка из указанной ссылки пользователем (ID: 1vq3d-nN7rCsZ-0P87f91VX048iDaYDDd)
+  const avatarUrl = 'https://drive.google.com/thumbnail?id=1vq3d-nN7rCsZ-0P87f91VX048iDaYDDd&sz=w1200';
+
+  // Файлы соцсетей для карточек
+  const socialScreenshots = {
+    tg: [],
+    insta: [],
+    tiktok: []
+  };
+
   const mediaItems = [];
 
   for (const file of files) {
-    const isImage = file.mimeType.startsWith('image/');
-    const isAvatar = isImage && /photo|avatar|sanya|саня|главн|me\./i.test(file.name);
+    const cleanTitle = file.name.replace(/\.[a-zA-Z0-9]+$/, '').toLowerCase();
 
-    if (isAvatar && !avatarUrl) {
-      avatarUrl = `https://drive.google.com/thumbnail?id=${file.id}&sz=w1200`;
+    // Исключаем скриншоты соцсетей и аватарку из общей сетки работ
+    if (/^(tg1|tg2)$/.test(cleanTitle)) {
+      socialScreenshots.tg.push({
+        id: file.id,
+        name: cleanTitle,
+        url: `https://drive.google.com/thumbnail?id=${file.id}&sz=w1000`
+      });
       continue;
     }
+    if (/^(inst1|inst2|inst3|inst4)$/.test(cleanTitle)) {
+      socialScreenshots.insta.push({
+        id: file.id,
+        name: cleanTitle,
+        url: `https://drive.google.com/thumbnail?id=${file.id}&sz=w1000`
+      });
+      continue;
+    }
+    if (/^(tiktok1|tiktok2)$/.test(cleanTitle)) {
+      socialScreenshots.tiktok.push({
+        id: file.id,
+        name: cleanTitle,
+        url: `https://drive.google.com/thumbnail?id=${file.id}&sz=w1000`
+      });
+      continue;
+    }
+    if (file.id === '1vq3d-nN7rCsZ-0P87f91VX048iDaYDDd' || file.id === '1eGfoZHGgGNPiR51DuTGN5VMeaIb9Z6ag') {
+      continue; // аватарку не выводим в общую галерею работ
+    }
+
+    const isImage = file.mimeType.startsWith('image/');
 
     // Определяем категорию по родительской папке
     let category = 'reels';
@@ -136,11 +169,10 @@ async function run() {
       }
     }
 
-    const cleanTitle = file.name.replace(/\.[a-zA-Z0-9]+$/, '');
     mediaItems.push({
       id: file.id,
-      title: cleanTitle,
-      subtitle: file.description || `${folderName} · ${isImage ? 'Дизайн / Графика' : 'Reels / Видео'}`,
+      title: file.name.replace(/\.[a-zA-Z0-9]+$/, ''),
+      subtitle: file.description || '',
       category: category,
       type: isImage ? 'image' : 'video',
       previewUrl: `https://drive.google.com/file/d/${file.id}/preview`,
@@ -150,14 +182,19 @@ async function run() {
     });
   }
 
-  // Сохраняем в videos.json
+  // Сортируем соц. скриншоты по алфавиту (tg1, tg2...)
+  socialScreenshots.tg.sort((a,b) => a.name.localeCompare(b.name));
+  socialScreenshots.insta.sort((a,b) => a.name.localeCompare(b.name));
+  socialScreenshots.tiktok.sort((a,b) => a.name.localeCompare(b.name));
+
   const result = {
     avatarUrl: avatarUrl,
+    socialScreenshots: socialScreenshots,
     items: mediaItems
   };
 
   fs.writeFileSync(OUTPUT_FILE, JSON.stringify(result, null, 2), 'utf8');
-  console.log(`[Sync] Найдено: ${mediaItems.length} медиафайлов. Аватарка: ${avatarUrl ? 'Да' : 'Не найдена (дефолт)'}`);
+  console.log(`[Sync] Работ в сетке: ${mediaItems.length}. TG скриншотов: ${socialScreenshots.tg.length}. Insta: ${socialScreenshots.insta.length}. TT: ${socialScreenshots.tiktok.length}.`);
 }
 
 run().catch(console.error);

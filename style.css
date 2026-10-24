@@ -1166,6 +1166,10 @@ body {
     height: 38px;
     max-width: 200px;
   }
+  .nav-tg-btn {
+    padding: 8px 14px;
+    font-size: 0.82rem;
+  }
   .nav-switch {
     display: none;
   }
@@ -1199,6 +1203,22 @@ body {
   }
   .nav-inner {
     padding: 10px 14px;
+    gap: 8px;
+  }
+  .brand-lettering-svg {
+    height: 32px;
+    max-width: 150px;
+  }
+  .nav-tg-btn {
+    padding: 6px 10px;
+    font-size: 0.78rem;
+    gap: 5px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .nav-tg-btn svg {
+    width: 15px;
+    height: 15px;
   }
   .page-container {
     padding-left: 14px;
@@ -1271,5 +1291,19 @@ body {
     padding: 0 14px;
     flex-direction: column;
     text-align: center;
+  }
+}
+
+/* Для самых компактных смартфонов (до 380px) кнопка аккуратно показывает иконку и краткую подпись или кружок */
+@media (max-width: 380px) {
+  .brand-lettering-svg {
+    height: 28px;
+    max-width: 130px;
+  }
+  .nav-tg-btn span {
+    font-size: 0.72rem;
+  }
+  .nav-tg-btn {
+    padding: 5px 8px;
   }
 }

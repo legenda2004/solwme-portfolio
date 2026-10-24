@@ -166,6 +166,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Назначенные ID для Кейса #2 (Мастер-класс / Арт-студия)
     // 1eZlmChr0qemxi-Cx_d3_OJcUORMSzDT5, 1MKsRlBWpBUFSoBAnWZwqBkTF4GZwZMgQ, 1ARNS4PL9JqHACkuY92VFftWmuubaUl6x
     const case2TargetIds = new Set([
+      '1CWsKv2zrXWmr9eHThLaB5dCbzC5D42gU',
       '1eZlmChr0qemxi-Cx_d3_OJcUORMSzDT5',
       '1MKsRlBWpBUFSoBAnWZwqBkTF4GZwZMgQ',
       '1ARNS4PL9JqHACkuY92VFftWmuubaUl6x',

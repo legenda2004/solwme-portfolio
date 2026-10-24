@@ -178,7 +178,6 @@ document.addEventListener("DOMContentLoaded", () => {
       '1xgOchHLc0n0m0ouB-aQ35gCeZu9THYUi',
       '1Ph6DxEGsxhvFRTrxGJ2VFpJVtjgyLteu',
       '1EGIyH1B3ECr-oPueGHTyVc9e5WztcJ8P',
-      '148wCuzCt8JoqHADD4GOUBHT4Q4nqysF0',
       '15y_POKdscBCzxLjd_uoLQ5s22iF6X_Zh'
     ]);
 

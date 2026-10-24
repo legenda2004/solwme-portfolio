@@ -158,6 +158,83 @@ document.addEventListener("DOMContentLoaded", () => {
     return items;
   }
 
+  // Сортировка по явному списку ID (для commercial и ugc)
+  function sortByIdOrder(items, orderedIds) {
+    const idMap = new Map(items.map(i => [i.id, i]));
+    const result = [];
+    orderedIds.forEach(id => {
+      if (idMap.has(id)) result.push(idMap.get(id));
+    });
+    // оставшиеся (не вошедшие в список) добавить в конец
+    const usedIds = new Set(orderedIds);
+    items.forEach(i => { if (!usedIds.has(i.id)) result.push(i); });
+    return result;
+  }
+
+  // Явный порядок для вкладки «Рекламные»
+  const COMMERCIAL_ORDER = [
+    '12YkQPfVBACFUk8wAACAojcjKQmJ5_nx2', // IMG_6349
+    '1D472WsJcob16YlzshoPZ_no62756cpPI', // IMG_6399
+    '1cik5pFMlKM_vBXqGDZM72VdBba8k6NtU', // photo_2026-10-23_15-09-19
+    '1TxqMxKNhAwwDRXpy9-VbU6G9yA54Suvu', // photo_2026-10-23_15-09-21
+    '11p_aHRoBtlYzQiWIwRhEPgWrleh8gehr', // IMG_8433
+    '18rVzjdLchlZ6Ok-TcC6AYRHNkfjHhdot', // photo_2026-10-23_14-59-32
+    '1woUqi1tYoNH_LUQ5DMMlSdtgH9munONj', // IMG_0229
+    '1bCPd7qCXMsgOPay5BfVf5xgvmbdO47z_', // IMG_0091
+    '1Un5VBGXpCZN6t9kPXQK9b8985i-dUIj3', // photo_2026-10-23_14-59-49
+    '1qghUU70qgH2vJLjz3RoBsnhkHU2HqvF2', // IMG_1354
+    '1Aa1w_hVMq09BbP43rYG2I0QRI4eO3l0g', // photo_2026-10-23_15-00-03
+    '1nA4RDzGPmA8D8rbl06HMTbGMTrsGlmlM', // IMG_1365
+    '1AD1XV5R1T4S7aHl0EUMIOIm6ZQYUBlv1', // photo_2026-10-23_15-00-10
+    '1ru999KhpgUvznIobH4BQmw0cEmSFiyeE', // IMG_1787
+    '1G4KEKYaUZuKuHCVkzZ54qDVd73ldndb2', // photo_2026-10-23_15-00-20
+    '1k2tbBEFx4EuviOrfC761jDJASKGa9Mc7', // IMG_5441
+    '1d-vWGbIpjlcAD6hdllwIPwfDE4X48a-u', // photo_2026-10-23_15-00-27
+    '1-j6uHrP0vG_mIN7dV2fhQrZerXKpejBP', // IMG_5714
+    '1XEHvFoDcwnJdZ-3-70ZppH_hH-_u29O4', // photo_2026-10-23_15-00-34
+    '1YtfhXr0L_kxBvue1Gbu6dtySV-C24H0Q', // IMG_6693
+    '1N9MfgMCsNBSKUUAisd5C8EkwgWmGMlcu', // photo_2026-10-23_15-00-38
+    '1tqVb7yYVtdIpZtfL4EMSGo0q5WOfcK9i', // IMG_8136
+    '1ZLgpLknUJBLUIIWvOlHPCmczlkDCCzuD', // photo_2026-10-23_15-00-48
+    '1NsAqv_37sv4NWrUCypDSRuxOwtNZNn5l', // IMG_6206
+    '1vEoFw-oJsb2ZnSH9N5uibXPbcG90ZRG4', // photo_2026-10-23_15-00-50
+    '1TljZfSyTKEEV0QujP9TJQY0GSUfFInx7', // IMG_6090
+    '1iQ7TXU5ZW9LzHnMpstd6-JBEyCIYADJc', // photo_2026-10-23_15-01-04
+    '1fb4wH42omfKEAb6l5jBeZ-TK8ObiBBMq', // IMG_8412
+    '1ueU-04pnaSktca298H0ukpAa2RGdp0sN', // IMG_5849
+  ];
+
+  // Явный порядок для вкладки «UGC»
+  const UGC_ORDER = [
+    '1ManB4U-OHqUUdgRY2d-svzvsGabY-MRy', // IMG_1441
+    '1lcGeJvIo7psKmPeIMuVuGsSPYsT6MECH', // IMG_1442
+    '1H2_f63IaWg3011-AzemMmcYgoc8ryPBy', // IMG_1440
+    '1KHD_QuXvaIqt0ezs_LEUEeKrjEeoSeoN', // photo_2026-10-24_19-30-21
+    '1n2cPKQMNKpDAzndVubXrwOoFJ1pibF6g', // IMG_1227
+    '1OhksWojQtd3gDOlBKkZHw6-GHvbb0bNV', // IMG_1228
+    '1CoNHFNvuzzKGQxyq_dSODi8Mhlfr_cO1', // IMG_1229
+    '1klaizwd2MmsB8gVa4JHApcU4o9GD2v8L', // photo_2026-10-24_19-34-20
+    '1OQMtTu3tVJ8un0OaRK0StQoiv5sYzKoy', // IMG_1456
+    '1BINcUQGwmbYnY3NkTffZcD0ZpBGWiyI9', // IMG_1457
+    '1A_JKt-FFfjkZEAkCg-ovVvpXNjeSb8pE', // photo_2026-10-24_19-36-00
+    // IMG_1460, IMG_1459, IMG_1458, photo_2026-10-24_19-37-07 — пока не загружены, встанут в конец
+    '14C3yT29nmGxA0UOG6Clu8hKxvIUAzZn7', // IMG_1461
+    '17w4SvJPTlnrQmVPV5IqEW_igz1XuGmxy', // IMG_1462
+    '1qvAJc1g71HMovPRvL816Zh0E6gxFnHfy', // IMG_1448
+    '1Y6rdZf64rRQ_nt9ofwJZb4hwjaGrLjCc', // IMG_1446
+    '1v_Ks5i1RfZu8U4s3AC-2biF9q3fHL70I', // photo_2026-10-24_19-38-03
+    '1gEU0wAlpAl4_eCQwrUcsu82cAmnyS_8W', // IMG_1465
+    '1CIYu0ZToQE-8ZOHgRnH_5154Xbux3zso', // IMG_1466
+    '1j2PI2ISWpH5GYDMGJT_yovUg6HYrKLbm', // IMG_1468
+    '1XU8HPQKvfeYDWvFAfZsozptmgyM8UTPu', // photo_2026-10-24_19-43-14
+    // IMG_1445, IMG_1443 — пока не загружены
+    '1rJyVnyFZ4RazlEKaBX0QcxTb_gyiX2G2', // IMG_1444
+    // старые UGC видео с прошлой загрузки
+    '1k_A8P9KD0xzshMulkPPX30sl1GrcjQxb', // IMG_0272
+    '1WiAEPUCPcTFOuitfAqXJsgLjHCCYU0HT', // IMG_9169
+    '1Y3KoQ7OzET8Py6-cTkK7qBxowPyvTOYp', // IMG_1431
+  ];
+
   // 5. Показ структурированного блока для вкладки SMM (точная группировка по запросу)
   function renderSmmShowcase(items) {
     // 1. Исключаем удаленное видео 1BHkmpFGARbGs_CEHDzeMPn9YodEO8bc-
@@ -181,16 +258,28 @@ document.addEventListener("DOMContentLoaded", () => {
       '15y_POKdscBCzxLjd_uoLQ5s22iF6X_Zh'
     ]);
 
+    // Назначенные ID для Кейса #3 (ЧаоКакао — какаочная)
+    const case3TargetIds = new Set([
+      '1S1tQ498MkIythtdXXpTkvqh2FLewuW_5', // IMG_1437
+      '1N5-mMzLsAjtbKMK2z6e-kaWAHGGlbzSR', // IMG_1436
+      '1bu_ydyr7vjUB1KIfBXHuSBD-hivDHYfF', // photo_2026-10-24_19-08-42
+      '1zSR8yj5lagulLokn1BSKFXEAb2g2mxnA', // photo_2026-10-24_19-08-39
+    ]);
+
     // Назначенные ID для Кейса #1 (Цветочная студия)
     // включая перенесенные 1t6gM0yJgFf0q0TY7Pu-v4XwSg8aWrF0K и 1TUqrTmWM3G-w7Kk2JCMfSX2SBALno0GI
-    const case1Items = filteredSmm.filter(i => !case2TargetIds.has(i.id));
+    const case1Items = filteredSmm.filter(i => !case2TargetIds.has(i.id) && !case3TargetIds.has(i.id));
     const case2Items = filteredSmm.filter(i => case2TargetIds.has(i.id));
+    const case3Items = filteredSmm.filter(i => case3TargetIds.has(i.id));
 
     const flowerImages = case1Items.filter(i => i.type === 'image');
     const flowerVideos = case1Items.filter(i => i.type === 'video');
 
     const artImages = case2Items.filter(i => i.type === 'image');
     const artVideos = case2Items.filter(i => i.type === 'video');
+
+    const cacaoImages = case3Items.filter(i => i.type === 'image');
+    const cacaoVideos = case3Items.filter(i => i.type === 'video');
 
     smmShowcaseContainer.style.display = "block";
     smmShowcaseContainer.innerHTML = `
@@ -264,6 +353,50 @@ document.addEventListener("DOMContentLoaded", () => {
             <h4 class="smm-col-title">Reels с мастер-классов</h4>
             <div class="smm-col-items">
               ${artVideos.map(vid => `
+                <div class="reel-card" data-preview="${vid.previewUrl}">
+                  <div class="reel-player-box">
+                    <img src="${vid.thumbnailUrl}" alt="Видео" class="reel-video-poster" loading="lazy">
+                    <div class="reel-play-overlay">
+                      <div class="reel-play-btn-circle">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                          <polygon points="6 4 20 12 6 20 6 4"></polygon>
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              `).join("")}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Кейс 3: ЧаоКакао — какаочная -->
+      <div class="smm-case-block">
+        <div class="smm-case-header">
+          <div class="smm-case-tag">SMM-кейс #3</div>
+          <h3 class="smm-case-title">Контент для какаочной «ЧаоКакао»</h3>
+          <p class="smm-case-desc">Атмосферные съёмки, уютный визуал и видео для продвижения уникального заведения.</p>
+        </div>
+
+        <div class="smm-split-grid">
+          <div class="smm-split-col">
+            <h4 class="smm-col-title">Фото и графика</h4>
+            <div class="smm-col-items">
+              ${cacaoImages.map(img => `
+                <div class="reel-card" data-full="${img.thumbnailUrl}">
+                  <div class="card-image-box">
+                    <img src="${img.thumbnailUrl}" alt="${img.title}" class="card-img-preview" loading="lazy">
+                  </div>
+                </div>
+              `).join("")}
+            </div>
+          </div>
+
+          <div class="smm-split-col">
+            <h4 class="smm-col-title">Видео (Reels)</h4>
+            <div class="smm-col-items">
+              ${cacaoVideos.map(vid => `
                 <div class="reel-card" data-preview="${vid.previewUrl}">
                   <div class="reel-player-box">
                     <img src="${vid.thumbnailUrl}" alt="Видео" class="reel-video-poster" loading="lazy">
@@ -416,6 +549,14 @@ document.addEventListener("DOMContentLoaded", () => {
       videoGrid.style.display = "none";
       loadMoreWrapper.style.display = "none";
       return;
+    } else if (category === "commercial") {
+      filtered = sortByIdOrder(allMedia.filter(i => i.category === "commercial"), COMMERCIAL_ORDER);
+      smmShowcaseContainer.style.display = "none";
+      videoGrid.style.display = "grid";
+    } else if (category === "ugc") {
+      filtered = sortByIdOrder(allMedia.filter(i => i.category === "ugc"), UGC_ORDER);
+      smmShowcaseContainer.style.display = "none";
+      videoGrid.style.display = "grid";
     } else {
       filtered = balanceMedia(allMedia.filter(i => i.category === category));
       smmShowcaseContainer.style.display = "none";

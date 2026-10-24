@@ -94,7 +94,6 @@ body {
   transform: translateY(-2px) scale(1.02);
 }
 
-/* Четкий логотип без размытия */
 .brand-lettering-svg {
   width: auto;
   height: 48px;
@@ -105,7 +104,6 @@ body {
   filter: drop-shadow(0 2px 6px rgba(35, 33, 33, 0.1));
 }
 
-/* Навигация с анимацией */
 .nav-switch {
   position: relative;
   display: inline-flex;
@@ -164,13 +162,15 @@ body {
 }
 
 /* ==========================================================================
-   Page Container
+   Page Container (Строго по центру с равными полями)
    ========================================================================== */
 .page-container {
   width: 100%;
   max-width: 1560px;
-  margin: 0 auto;
+  margin-left: auto;
+  margin-right: auto;
   padding: 40px 32px 100px 32px;
+  box-sizing: border-box;
 }
 
 /* ==========================================================================
@@ -178,6 +178,7 @@ body {
    ========================================================================== */
 .resume-hero {
   margin-bottom: 70px;
+  width: 100%;
 }
 
 .resume-card {
@@ -190,12 +191,15 @@ body {
   grid-template-columns: 360px 1fr;
   gap: 50px;
   align-items: start;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .resume-photo-col {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  width: 100%;
 }
 
 .photo-wrapper {
@@ -206,6 +210,8 @@ body {
   overflow: hidden;
   box-shadow: var(--shadow-sm);
   background: #ece3d7;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .creator-photo {
@@ -413,6 +419,7 @@ body {
   margin-top: 60px;
   padding-top: 40px;
   border-top: 1px solid var(--border-light);
+  width: 100%;
 }
 
 .section-title-bar {
@@ -475,6 +482,7 @@ body {
   flex-direction: column;
   gap: 40px;
   margin-bottom: 40px;
+  width: 100%;
 }
 
 .smm-case-block {
@@ -483,6 +491,8 @@ body {
   padding: 36px;
   border: 1px solid var(--border-card);
   box-shadow: var(--shadow-card);
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .smm-case-header {
@@ -520,12 +530,14 @@ body {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 32px;
+  width: 100%;
 }
 
 .smm-split-col {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  width: 100%;
 }
 
 .smm-col-title {
@@ -541,6 +553,7 @@ body {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 16px;
+  width: 100%;
 }
 
 /* Основная сетка работ */
@@ -548,6 +561,7 @@ body {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 24px;
+  width: 100%;
 }
 
 .reel-card {
@@ -561,6 +575,8 @@ body {
   aspect-ratio: 9 / 16;
   cursor: pointer;
   transition: transform var(--transition-smooth), box-shadow var(--transition-smooth);
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .reel-card:hover {
@@ -687,6 +703,7 @@ body {
   display: flex;
   justify-content: center;
   margin-top: 40px;
+  width: 100%;
 }
 
 .load-more-btn {
@@ -720,6 +737,8 @@ body {
   border: 1px solid rgba(40, 169, 234, 0.25);
   border-radius: var(--radius-lg);
   padding: 32px 36px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .banner-inner {
@@ -786,6 +805,7 @@ body {
   margin-top: 100px;
   padding-top: 40px;
   border-top: 1px solid var(--border-light);
+  width: 100%;
 }
 
 .section-center-head {
@@ -826,6 +846,7 @@ body {
   grid-template-columns: repeat(3, 1fr);
   gap: 24px;
   margin-bottom: 32px;
+  width: 100%;
 }
 
 .social-card {
@@ -837,6 +858,7 @@ body {
   display: flex;
   flex-direction: column;
   transition: transform var(--transition-smooth), box-shadow var(--transition-smooth);
+  box-sizing: border-box;
 }
 
 .social-card:hover {
@@ -877,7 +899,6 @@ body {
   color: var(--text-muted);
 }
 
-/* Скриншоты в карточках соцсетей */
 .social-screens-row {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -938,7 +959,6 @@ body {
   filter: brightness(1.08);
 }
 
-/* Дополнительные контакты */
 .extra-contacts-bar {
   display: flex;
   align-items: center;
@@ -951,6 +971,7 @@ body {
   border: 1px solid var(--border-light);
   max-width: 880px;
   margin: 0 auto;
+  box-sizing: border-box;
 }
 
 .extra-contact-item {
@@ -1066,6 +1087,7 @@ body {
   border-top: 1px solid var(--border-light);
   padding: 36px 0;
   margin-top: 60px;
+  width: 100%;
 }
 
 .footer-inner {
@@ -1077,6 +1099,7 @@ body {
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 16px;
+  box-sizing: border-box;
 }
 
 .footer-title {
@@ -1099,7 +1122,7 @@ body {
 }
 
 /* ==========================================================================
-   Адаптивность под смартфоны (Mobile Optimization)
+   Адаптивность (Идеальное центрирование на планшетах и смартфонах)
    ========================================================================== */
 @media (max-width: 1280px) {
   .resume-card {
@@ -1132,19 +1155,23 @@ body {
 }
 
 @media (max-width: 860px) {
+  .page-container {
+    padding: 24px 20px 70px 20px;
+    margin: 0 auto;
+  }
   .nav-inner {
-    padding: 12px 18px;
+    padding: 12px 20px;
   }
   .brand-lettering-svg {
     height: 38px;
     max-width: 200px;
   }
   .nav-switch {
-    display: none; /* скрываем на мобильных, чтобы не загромождать шапку */
+    display: none;
   }
   .resume-card {
     grid-template-columns: 1fr;
-    padding: 24px 18px;
+    padding: 28px 20px;
   }
   .photo-wrapper {
     max-width: 280px;
@@ -1155,21 +1182,37 @@ body {
   }
   .responsive-video-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 14px;
+    gap: 16px;
+    justify-items: center;
   }
   .smm-col-items {
     grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
+    gap: 16px;
   }
 }
 
+/* Точная мобильная сетка со строгим центрированием без перекоса вправо */
 @media (max-width: 520px) {
+  html, body {
+    width: 100%;
+    overflow-x: hidden;
+  }
+  .nav-inner {
+    padding: 10px 14px;
+  }
   .page-container {
-    padding: 16px 12px 60px 12px;
+    padding-left: 14px;
+    padding-right: 14px;
+    padding-top: 16px;
+    padding-bottom: 60px;
+    margin: 0 auto;
+    width: 100%;
+    box-sizing: border-box;
   }
   .resume-card {
     padding: 20px 14px;
     border-radius: 20px;
+    margin: 0 auto;
   }
   .creator-name {
     font-size: 1.8rem;
@@ -1178,17 +1221,41 @@ body {
     grid-template-columns: 1fr;
     gap: 10px;
   }
+
+  /* Сетка 2 колонки со строго симметричными отступами */
   .responsive-video-grid {
-    grid-template-columns: repeat(2, 1fr); /* 2 колонки на смартфонах для идеального листания */
-    gap: 10px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0;
   }
   .smm-col-items {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    width: 100%;
+    margin: 0 auto;
   }
   .smm-case-block {
     padding: 20px 14px;
     border-radius: 20px;
+    margin: 0 auto;
+  }
+  .filter-pills-wrapper {
+    justify-content: flex-start;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .filter-pills-wrapper::-webkit-scrollbar {
+    display: none;
+  }
+  .filter-pill {
+    padding: 8px 16px;
+    font-size: 0.82rem;
+    white-space: nowrap;
+    flex-shrink: 0;
   }
   .extra-contacts-bar {
     border-radius: 18px;
@@ -1199,5 +1266,10 @@ body {
   .load-more-btn {
     width: 100%;
     justify-content: center;
+  }
+  .footer-inner {
+    padding: 0 14px;
+    flex-direction: column;
+    text-align: center;
   }
 }

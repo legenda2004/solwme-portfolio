@@ -64,27 +64,43 @@ function getAccessToken(creds) {
   });
 }
 
-function queryFiles(token, query, fields) {
+function fetchAllDriveFiles(token, folderId) {
   return new Promise((resolve, reject) => {
-    const pathUrl = `/drive/v3/files?q=${encodeURIComponent(query)}&fields=${encodeURIComponent(fields)}&pageSize=100`;
-    const req = https.request({
-      hostname: 'www.googleapis.com',
-      path: pathUrl,
-      method: 'GET',
-      headers: { 'Authorization': `Bearer ${token}` }
-    }, (res) => {
-      let body = '';
-      res.on('data', chunk => body += chunk);
-      res.on('end', () => {
-        try {
-          resolve(JSON.parse(body));
-        } catch (e) {
-          reject(e);
-        }
+    let allFiles = [];
+
+    function fetchPage(pageToken) {
+      let pathUrl = `/drive/v3/files?q=${encodeURIComponent(`'${folderId}' in parents and trashed = false`)}&fields=${encodeURIComponent('nextPageToken,files(id,name,mimeType,parents,description,createdTime,size)')}&pageSize=100`;
+      if (pageToken) {
+        pathUrl += `&pageToken=${encodeURIComponent(pageToken)}`;
+      }
+
+      const req = https.request({
+        hostname: 'www.googleapis.com',
+        path: pathUrl,
+        method: 'GET',
+        headers: { 'Authorization': `Bearer ${token}` }
+      }, (res) => {
+        let body = '';
+        res.on('data', chunk => body += chunk);
+        res.on('end', () => {
+          try {
+            const data = JSON.parse(body);
+            if (data.files) allFiles = allFiles.concat(data.files);
+            if (data.nextPageToken) {
+              fetchPage(data.nextPageToken);
+            } else {
+              resolve(allFiles);
+            }
+          } catch (e) {
+            reject(e);
+          }
+        });
       });
-    });
-    req.on('error', reject);
-    req.end();
+      req.on('error', reject);
+      req.end();
+    }
+
+    fetchPage(null);
   });
 }
 
@@ -93,38 +109,36 @@ async function run() {
   const creds = JSON.parse(fs.readFileSync(CRED_PATH, 'utf8'));
   const token = await getAccessToken(creds);
 
-  // 1. Получаем список подпапок внутри главной папки
-  const subfoldersRes = await queryFiles(token, `'${PARENT_FOLDER_ID}' in parents and mimeType = 'application/vnd.google-apps.folder' and trashed = false`, 'files(id,name)');
-  const subfolders = subfoldersRes.files || [];
-
+  // 1. Получаем список подпапок
+  const subfolders = await fetchAllDriveFiles(token, PARENT_FOLDER_ID);
   const folderMap = {};
   for (const f of subfolders) {
-    const cat = FOLDER_CATEGORY_MAP[f.name] || 'reels';
-    folderMap[f.id] = { name: f.name, category: cat };
+    if (f.mimeType === 'application/vnd.google-apps.folder') {
+      const cat = FOLDER_CATEGORY_MAP[f.name] || 'reels';
+      folderMap[f.id] = { name: f.name, category: cat };
+    }
   }
 
-  // 2. Ищем все медиафайлы (видео и фото) внутри этих подпапок + в корневой папке
-  const folderIds = [PARENT_FOLDER_ID, ...subfolders.map(f => f.id)];
-  const parentQuery = folderIds.map(id => `'${id}' in parents`).join(' or ');
-  const mediaQuery = `(${parentQuery}) and (mimeType contains 'video/' or mimeType contains 'image/') and trashed = false`;
-  const fields = 'files(id,name,mimeType,parents,description,createdTime,size)';
+  // 2. Получаем файлы из каждой подпапки с пагинацией!
+  let allFiles = [];
+  const rootFiles = await fetchAllDriveFiles(token, PARENT_FOLDER_ID);
+  allFiles = allFiles.concat(rootFiles.filter(f => f.mimeType !== 'application/vnd.google-apps.folder'));
 
-  const filesRes = await queryFiles(token, mediaQuery, fields);
-  const files = filesRes.files || [];
+  for (const sfId of Object.keys(folderMap)) {
+    const sFiles = await fetchAllDriveFiles(token, sfId);
+    allFiles = allFiles.concat(sFiles.filter(f => f.mimeType !== 'application/vnd.google-apps.folder'));
+  }
 
-  // Аватарка из указанной ссылки пользователем (ID: 1vq3d-nN7rCsZ-0P87f91VX048iDaYDDd)
+  console.log(`Всего файлов получено с Google Диска: ${allFiles.length}`);
+
+  // Аватарка
   const avatarUrl = 'https://drive.google.com/thumbnail?id=1vq3d-nN7rCsZ-0P87f91VX048iDaYDDd&sz=w1200';
 
-  // Файлы соцсетей для карточек
-  const socialScreenshots = {
-    tg: [],
-    insta: [],
-    tiktok: []
-  };
-
+  // Файлы соцсетей
+  const socialScreenshots = { tg: [], insta: [], tiktok: [] };
   const mediaItems = [];
 
-  for (const file of files) {
+  for (const file of allFiles) {
     const cleanTitle = file.name.replace(/\.[a-zA-Z0-9]+$/, '').toLowerCase();
 
     // Исключаем скриншоты соцсетей и аватарку из общей сетки работ
@@ -153,7 +167,7 @@ async function run() {
       continue;
     }
     if (file.id === '1vq3d-nN7rCsZ-0P87f91VX048iDaYDDd' || file.id === '1eGfoZHGgGNPiR51DuTGN5VMeaIb9Z6ag') {
-      continue; // аватарку не выводим в общую галерею работ
+      continue;
     }
 
     const isImage = file.mimeType.startsWith('image/');
@@ -182,7 +196,6 @@ async function run() {
     });
   }
 
-  // Сортируем соц. скриншоты по алфавиту (tg1, tg2...)
   socialScreenshots.tg.sort((a,b) => a.name.localeCompare(b.name));
   socialScreenshots.insta.sort((a,b) => a.name.localeCompare(b.name));
   socialScreenshots.tiktok.sort((a,b) => a.name.localeCompare(b.name));
@@ -194,7 +207,10 @@ async function run() {
   };
 
   fs.writeFileSync(OUTPUT_FILE, JSON.stringify(result, null, 2), 'utf8');
-  console.log(`[Sync] Работ в сетке: ${mediaItems.length}. TG скриншотов: ${socialScreenshots.tg.length}. Insta: ${socialScreenshots.insta.length}. TT: ${socialScreenshots.tiktok.length}.`);
+  console.log(`[Sync] Успешно сохранено: ${mediaItems.length} работ.`);
+  const counts = {};
+  mediaItems.forEach(i => counts[i.category] = (counts[i.category] || 0) + 1);
+  console.log('По категориям:', counts);
 }
 
 run().catch(console.error);

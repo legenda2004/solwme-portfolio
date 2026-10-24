@@ -1,7 +1,7 @@
 /**
  * Интеграция с Google Диском для сайта Александры (Саня Солвми)
  * Поддержка пагинации (по 8 карточек + кнопка "Показать ещё"),
- * структурирования SMM-кейсов (Цветочная студия, Арт-студия)
+ * точного распределения SMM-кейсов (Цветочная студия, Арт-студия)
  * и чередования скринов и видео.
  */
 
@@ -146,7 +146,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const videos = items.filter(i => i.type === "video");
     const images = items.filter(i => i.type === "image");
     
-    // Если есть и видео, и фото — чередуем 1 видео / 1 скриншот или 2 на 2
     if (videos.length > 0 && images.length > 0) {
       const balanced = [];
       let vIdx = 0, iIdx = 0;
@@ -159,17 +158,39 @@ document.addEventListener("DOMContentLoaded", () => {
     return items;
   }
 
-  // 5. Показ структурированного блока для вкладки SMM
+  // 5. Показ структурированного блока для вкладки SMM (точная группировка по запросу)
   function renderSmmShowcase(items) {
-    const images = items.filter(i => i.type === "image");
-    const videos = items.filter(i => i.type === "video");
+    // 1. Исключаем удаленное видео 1BHkmpFGARbGs_CEHDzeMPn9YodEO8bc-
+    const filteredSmm = items.filter(i => i.id !== '1BHkmpFGARbGs_CEHDzeMPn9YodEO8bc-');
 
-    // Разделяем по проектам: Цветочная студия и Арт-студия
-    const flowerImages = images.slice(0, 7);
-    const artImages = images.slice(7);
+    // Назначенные ID для Кейса #2 (Мастер-класс / Арт-студия)
+    // 1eZlmChr0qemxi-Cx_d3_OJcUORMSzDT5, 1MKsRlBWpBUFSoBAnWZwqBkTF4GZwZMgQ, 1ARNS4PL9JqHACkuY92VFftWmuubaUl6x
+    const case2TargetIds = new Set([
+      '1eZlmChr0qemxi-Cx_d3_OJcUORMSzDT5',
+      '1MKsRlBWpBUFSoBAnWZwqBkTF4GZwZMgQ',
+      '1ARNS4PL9JqHACkuY92VFftWmuubaUl6x',
+      // также родные видео и фото арт-вечеринок
+      '1QJYGhp9VjrAXKXFVyOsDgOXtptViTW0-',
+      '1nrwnz70BgnVpIYg7zMoHQB-grm2CgXEs',
+      '1GbYf9gMX-A6Nmgw-7nC942soWB3-X5V2',
+      '1Bfr160SHRwaC0J_9BmmPD2dIRqzEP3NC',
+      '1xgOchHLc0n0m0ouB-aQ35gCeZu9THYUi',
+      '1Ph6DxEGsxhvFRTrxGJ2VFpJVtjgyLteu',
+      '1EGIyH1B3ECr-oPueGHTyVc9e5WztcJ8P',
+      '148wCuzCt8JoqHADD4GOUBHT4Q4nqysF0',
+      '15y_POKdscBCzxLjd_uoLQ5s22iF6X_Zh'
+    ]);
 
-    const flowerVideos = videos.slice(0, 4);
-    const artVideos = videos.slice(4);
+    // Назначенные ID для Кейса #1 (Цветочная студия)
+    // включая перенесенные 1t6gM0yJgFf0q0TY7Pu-v4XwSg8aWrF0K и 1TUqrTmWM3G-w7Kk2JCMfSX2SBALno0GI
+    const case1Items = filteredSmm.filter(i => !case2TargetIds.has(i.id));
+    const case2Items = filteredSmm.filter(i => case2TargetIds.has(i.id));
+
+    const flowerImages = case1Items.filter(i => i.type === 'image');
+    const flowerVideos = case1Items.filter(i => i.type === 'video');
+
+    const artImages = case2Items.filter(i => i.type === 'image');
+    const artVideos = case2Items.filter(i => i.type === 'video');
 
     smmShowcaseContainer.style.display = "block";
     smmShowcaseContainer.innerHTML = `
@@ -217,12 +238,12 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
       </div>
 
-      <!-- Кейс 2: Арт-студия и арт-вечеринки -->
+      <!-- Кейс 2: Арт-студия, мастер-классы и арт-вечеринки -->
       <div class="smm-case-block">
         <div class="smm-case-header">
           <div class="smm-case-tag">SMM-кейс #2</div>
-          <h3 class="smm-case-title">Продвижение арт-студии и вечеринок</h3>
-          <p class="smm-case-desc">Создание ярких афиш мероприятий, анонсы мастер-классов в сторис и динамичные ролики процесса рисования.</p>
+          <h3 class="smm-case-title">Продвижение арт-студии и мастер-классов</h3>
+          <p class="smm-case-desc">Создание ярких афиш мероприятий, анонсы мастер-классов в сторис и динамичные ролики процесса творчества.</p>
         </div>
 
         <div class="smm-split-grid">
@@ -293,7 +314,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="empty-feed-placeholder" style="grid-column: 1 / -1; text-align: center; padding: 60px 20px;">
           <div class="empty-feed-spinner" style="margin: 0 auto 16px auto;"></div>
           <p class="empty-feed-text" style="color: var(--text-muted); font-size: 1rem;">
-            Работы синхронизируются с Google Диском...
+            В этой категории пока нет загруженных работ.
           </p>
         </div>
       `;
@@ -364,7 +385,7 @@ document.addEventListener("DOMContentLoaded", () => {
       videoGrid.appendChild(card);
     });
 
-    // Управление видимостью кнопки "Показать ещё"
+    // Управление кнопкой "Показать ещё"
     if (displayedCount < items.length) {
       loadMoreWrapper.style.display = "flex";
       loadMoreBtn.querySelector("span").textContent = `Показать ещё (${items.length - displayedCount} ост.)`;
@@ -382,7 +403,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // 7. Фильтрация
   function applyFilter(category) {
     currentCategory = category;
-    displayedCount = 8; // сбрасываем счетчик при переключении табов на 8
+    displayedCount = 8;
 
     let filtered = [];
     if (category === "all") {
@@ -390,7 +411,6 @@ document.addEventListener("DOMContentLoaded", () => {
       smmShowcaseContainer.style.display = "none";
       videoGrid.style.display = "grid";
     } else if (category === "smm") {
-      // Для SMM включаем специальный структурированный блок
       filtered = allMedia.filter(i => i.category === "smm");
       renderSmmShowcase(filtered);
       videoGrid.style.display = "none";

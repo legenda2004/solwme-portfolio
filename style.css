@@ -66,7 +66,7 @@ body {
   left: 0;
   width: 100%;
   z-index: 100;
-  background: rgba(251, 241, 230, 0.92);
+  background: rgba(251, 241, 230, 0.94);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--border-light);
@@ -94,15 +94,18 @@ body {
   transform: translateY(-2px) scale(1.02);
 }
 
+/* Четкий логотип без размытия */
 .brand-lettering-svg {
   width: auto;
   height: 48px;
   max-width: 280px;
   display: block;
-  filter: drop-shadow(0 2px 8px rgba(35, 33, 33, 0.08));
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  filter: drop-shadow(0 2px 6px rgba(35, 33, 33, 0.1));
 }
 
-/* Переключатель с плавной анимацией табов */
+/* Навигация с анимацией */
 .nav-switch {
   position: relative;
   display: inline-flex;
@@ -404,7 +407,7 @@ body {
 }
 
 /* ==========================================================================
-   Portfolio Section (Чистые карточки без лишних названий и кнопок)
+   Portfolio Section & SMM Structured Showcase
    ========================================================================== */
 .portfolio-section {
   margin-top: 60px;
@@ -466,7 +469,81 @@ body {
   box-shadow: 0 4px 14px rgba(31, 27, 24, 0.25);
 }
 
-/* Сетка карточек: чистый 9:16 формат, правильное масштабирование */
+/* Структурированный SMM блок (Цветочная студия, Арт-студия) */
+.smm-showcase-container {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  margin-bottom: 40px;
+}
+
+.smm-case-block {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  padding: 36px;
+  border: 1px solid var(--border-card);
+  box-shadow: var(--shadow-card);
+}
+
+.smm-case-header {
+  margin-bottom: 28px;
+}
+
+.smm-case-tag {
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-gold);
+  background: var(--accent-gold-light);
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  margin-bottom: 10px;
+}
+
+.smm-case-title {
+  font-family: var(--font-heading);
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--text-dark);
+  margin-bottom: 6px;
+}
+
+.smm-case-desc {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  max-width: 820px;
+}
+
+.smm-split-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+
+.smm-split-col {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.smm-col-title {
+  font-family: var(--font-heading);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  padding-bottom: 8px;
+  border-bottom: 1px dashed var(--border-light);
+}
+
+.smm-col-items {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+/* Основная сетка работ */
 .responsive-video-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -548,7 +625,7 @@ body {
   background: #ffffff;
 }
 
-/* Карточка Фото / Дизайна (во весь рост, object-fit: contain для идеального отображения буклетов и афиш) */
+/* Карточка Фото / Дизайна */
 .card-image-box {
   position: relative;
   width: 100%;
@@ -603,6 +680,103 @@ body {
 .card-image-box:hover .view-zoom-icon {
   opacity: 1;
   transform: scale(1);
+}
+
+/* Кнопка "Показать ещё" */
+.load-more-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.load-more-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 32px;
+  border-radius: var(--radius-pill);
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  color: var(--text-dark);
+  font-size: 0.96rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-smooth);
+}
+
+.load-more-btn:hover {
+  transform: translateY(-2px);
+  background: #ffffff;
+  border-color: var(--accent-gold);
+  color: var(--accent-gold);
+  box-shadow: var(--shadow-card);
+}
+
+/* Баннер Telegram портфолио */
+.portfolio-tg-banner {
+  margin-top: 60px;
+  background: linear-gradient(135deg, rgba(40, 169, 234, 0.12) 0%, rgba(196, 106, 32, 0.1) 100%);
+  border: 1px solid rgba(40, 169, 234, 0.25);
+  border-radius: var(--radius-lg);
+  padding: 32px 36px;
+}
+
+.banner-inner {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.banner-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 18px;
+  background: var(--accent-tg);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 8px 20px rgba(40, 169, 234, 0.35);
+}
+
+.banner-content {
+  flex-grow: 1;
+}
+
+.banner-content h3 {
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--text-dark);
+  margin-bottom: 4px;
+}
+
+.banner-content p {
+  font-size: 0.92rem;
+  color: var(--text-muted);
+}
+
+.banner-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 14px 28px;
+  border-radius: var(--radius-pill);
+  background: var(--accent-tg);
+  color: #ffffff;
+  font-size: 0.94rem;
+  font-weight: 700;
+  text-decoration: none;
+  flex-shrink: 0;
+  box-shadow: 0 6px 18px rgba(40, 169, 234, 0.35);
+  transition: all var(--transition-smooth);
+}
+
+.banner-btn:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.08);
+  box-shadow: 0 10px 24px rgba(40, 169, 234, 0.5);
 }
 
 /* ==========================================================================
@@ -703,7 +877,7 @@ body {
   color: var(--text-muted);
 }
 
-/* Скриншоты в карточках */
+/* Скриншоты в карточках соцсетей */
 .social-screens-row {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -775,7 +949,7 @@ body {
   background: rgba(255, 255, 255, 0.6);
   border-radius: var(--radius-pill);
   border: 1px solid var(--border-light);
-  max-width: 760px;
+  max-width: 880px;
   margin: 0 auto;
 }
 
@@ -794,7 +968,7 @@ body {
 }
 
 /* ==========================================================================
-   Lightbox Modal (Для чистого полноэкранного просмотра без мерцаний)
+   Lightbox Modal
    ========================================================================== */
 .lightbox-modal {
   position: fixed;
@@ -925,7 +1099,7 @@ body {
 }
 
 /* ==========================================================================
-   Адаптивность
+   Адаптивность под смартфоны (Mobile Optimization)
    ========================================================================== */
 @media (max-width: 1280px) {
   .resume-card {
@@ -942,14 +1116,38 @@ body {
   .social-cards-grid {
     grid-template-columns: 1fr;
   }
+  .smm-split-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .banner-inner {
+    flex-direction: column;
+    text-align: center;
+    gap: 16px;
+  }
+  .banner-btn {
+    width: 100%;
+    justify-content: center;
+  }
 }
 
 @media (max-width: 860px) {
+  .nav-inner {
+    padding: 12px 18px;
+  }
+  .brand-lettering-svg {
+    height: 38px;
+    max-width: 200px;
+  }
+  .nav-switch {
+    display: none; /* скрываем на мобильных, чтобы не загромождать шапку */
+  }
   .resume-card {
     grid-template-columns: 1fr;
+    padding: 24px 18px;
   }
   .photo-wrapper {
-    max-width: 320px;
+    max-width: 280px;
     margin: 0 auto;
   }
   .services-list {
@@ -957,30 +1155,49 @@ body {
   }
   .responsive-video-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
+    gap: 14px;
+  }
+  .smm-col-items {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
   }
 }
 
 @media (max-width: 520px) {
   .page-container {
-    padding: 20px 14px 60px 14px;
+    padding: 16px 12px 60px 12px;
   }
   .resume-card {
-    padding: 22px 16px;
-    border-radius: 22px;
+    padding: 20px 14px;
+    border-radius: 20px;
+  }
+  .creator-name {
+    font-size: 1.8rem;
   }
   .resume-mini-grid {
     grid-template-columns: 1fr;
+    gap: 10px;
   }
   .responsive-video-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr); /* 2 колонки на смартфонах для идеального листания */
+    gap: 10px;
   }
-  .nav-switch {
-    display: none;
+  .smm-col-items {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  .smm-case-block {
+    padding: 20px 14px;
+    border-radius: 20px;
   }
   .extra-contacts-bar {
     border-radius: 18px;
     flex-direction: column;
     text-align: center;
+    padding: 16px;
+  }
+  .load-more-btn {
+    width: 100%;
+    justify-content: center;
   }
 }

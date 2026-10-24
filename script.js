@@ -1,6 +1,8 @@
 /**
  * Интеграция с Google Диском для сайта Александры (Саня Солвми)
- * Папка: https://drive.google.com/drive/folders/1jPSdn-z-C3uglhDuXSXQu9N7Ah3v98gz
+ * Поддержка пагинации (по 8 карточек + кнопка "Показать ещё"),
+ * структурирования SMM-кейсов (Цветочная студия, Арт-студия)
+ * и чередования скринов и видео.
  */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -8,6 +10,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const filterPills = document.querySelectorAll(".filter-pill");
   const navTabs = document.querySelectorAll(".nav-tab");
   const creatorAvatar = document.getElementById("creatorAvatar");
+  const loadMoreWrapper = document.getElementById("loadMoreWrapper");
+  const loadMoreBtn = document.getElementById("loadMoreBtn");
+  const smmShowcaseContainer = document.getElementById("smmShowcaseContainer");
 
   // Контейнеры скриншотов соцсетей
   const tgScreensContainer = document.getElementById("tgScreensContainer");
@@ -21,16 +26,20 @@ document.addEventListener("DOMContentLoaded", () => {
   const lightboxBackdrop = document.getElementById("lightboxBackdrop");
 
   let allMedia = [];
+  let currentFilteredList = [];
+  let displayedCount = 8;
+  const STEP_SIZE = 8;
+  let currentCategory = "all";
 
-  // 1. Плавная анимация навигации в шапке (Обо мне, Работы, Контакты)
+  // 1. Плавная навигация в шапке (Обо мне, Работы, Контакты)
   navTabs.forEach((tab) => {
-    tab.addEventListener("click", (e) => {
+    tab.addEventListener("click", () => {
       navTabs.forEach((t) => t.classList.remove("active"));
       tab.classList.add("active");
     });
   });
 
-  // Отслеживание скролла для автоматической смены активного таба
+  // Отслеживание скролла (ScrollSpy)
   const sections = document.querySelectorAll("section[id]");
   window.addEventListener("scroll", () => {
     let current = "";
@@ -52,7 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }, { passive: true });
 
-  // 2. Управление Lightbox
+  // 2. Lightbox
   function openLightbox(htmlContent) {
     lightboxBody.innerHTML = htmlContent;
     lightboxModal.classList.add("active");
@@ -85,13 +94,13 @@ document.addEventListener("DOMContentLoaded", () => {
           creatorAvatar.src = data.avatarUrl;
         }
 
-        // Рендерим скриншоты соцсетей (tg1/tg2, inst1..4, tiktok1/2)
+        // Рендерим скриншоты соцсетей
         if (data.socialScreenshots) {
           renderSocialScreens(data.socialScreenshots);
         }
 
         allMedia = Array.isArray(data) ? data : (data.items || []);
-        renderFeed(allMedia);
+        applyFilter(currentCategory);
       }
     } catch (e) {
       console.warn("videos.json fetch error:", e);
@@ -124,7 +133,6 @@ document.addEventListener("DOMContentLoaded", () => {
       `).join("");
     }
 
-    // Клик по любому скриншоту открывает его в полном размере
     document.querySelectorAll(".screen-thumb-box").forEach((box) => {
       box.addEventListener("click", () => {
         const fullUrl = box.getAttribute("data-full");
@@ -133,9 +141,152 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // 4. Рендер основной сетки работ
-  function renderFeed(items) {
-    videoGrid.innerHTML = "";
+  // 4. Умное чередование: видео и скриншоты в гармоничном порядке
+  function balanceMedia(items) {
+    const videos = items.filter(i => i.type === "video");
+    const images = items.filter(i => i.type === "image");
+    
+    // Если есть и видео, и фото — чередуем 1 видео / 1 скриншот или 2 на 2
+    if (videos.length > 0 && images.length > 0) {
+      const balanced = [];
+      let vIdx = 0, iIdx = 0;
+      while (vIdx < videos.length || iIdx < images.length) {
+        if (vIdx < videos.length) balanced.push(videos[vIdx++]);
+        if (iIdx < images.length) balanced.push(images[iIdx++]);
+      }
+      return balanced;
+    }
+    return items;
+  }
+
+  // 5. Показ структурированного блока для вкладки SMM
+  function renderSmmShowcase(items) {
+    const images = items.filter(i => i.type === "image");
+    const videos = items.filter(i => i.type === "video");
+
+    // Разделяем по проектам: Цветочная студия и Арт-студия
+    const flowerImages = images.slice(0, 7);
+    const artImages = images.slice(7);
+
+    const flowerVideos = videos.slice(0, 4);
+    const artVideos = videos.slice(4);
+
+    smmShowcaseContainer.style.display = "block";
+    smmShowcaseContainer.innerHTML = `
+      <!-- Кейс 1: Цветочная студия -->
+      <div class="smm-case-block">
+        <div class="smm-case-header">
+          <div class="smm-case-tag">SMM-кейс #1</div>
+          <h3 class="smm-case-title">Комплексное ведение цветочной студии</h3>
+          <p class="smm-case-desc">Упаковка профиля, разработка визуальной концепции «до / после», дизайн рекламных буклетов и серия атмосферных Reels.</p>
+        </div>
+
+        <div class="smm-split-grid">
+          <div class="smm-split-col">
+            <h4 class="smm-col-title">Дизайн, оформление и сторис</h4>
+            <div class="smm-col-items">
+              ${flowerImages.map(img => `
+                <div class="reel-card" data-full="${img.thumbnailUrl}">
+                  <div class="card-image-box">
+                    <img src="${img.thumbnailUrl}" alt="${img.title}" class="card-img-preview" loading="lazy">
+                  </div>
+                </div>
+              `).join("")}
+            </div>
+          </div>
+
+          <div class="smm-split-col">
+            <h4 class="smm-col-title">Вертикальные видео (Reels)</h4>
+            <div class="smm-col-items">
+              ${flowerVideos.map(vid => `
+                <div class="reel-card" data-preview="${vid.previewUrl}">
+                  <div class="reel-player-box">
+                    <img src="${vid.thumbnailUrl}" alt="Видео" class="reel-video-poster" loading="lazy">
+                    <div class="reel-play-overlay">
+                      <div class="reel-play-btn-circle">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                          <polygon points="6 4 20 12 6 20 6 4"></polygon>
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              `).join("")}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Кейс 2: Арт-студия и арт-вечеринки -->
+      <div class="smm-case-block">
+        <div class="smm-case-header">
+          <div class="smm-case-tag">SMM-кейс #2</div>
+          <h3 class="smm-case-title">Продвижение арт-студии и вечеринок</h3>
+          <p class="smm-case-desc">Создание ярких афиш мероприятий, анонсы мастер-классов в сторис и динамичные ролики процесса рисования.</p>
+        </div>
+
+        <div class="smm-split-grid">
+          <div class="smm-split-col">
+            <h4 class="smm-col-title">Афиши и графика</h4>
+            <div class="smm-col-items">
+              ${artImages.map(img => `
+                <div class="reel-card" data-full="${img.thumbnailUrl}">
+                  <div class="card-image-box">
+                    <img src="${img.thumbnailUrl}" alt="${img.title}" class="card-img-preview" loading="lazy">
+                  </div>
+                </div>
+              `).join("")}
+            </div>
+          </div>
+
+          <div class="smm-split-col">
+            <h4 class="smm-col-title">Reels с мастер-классов</h4>
+            <div class="smm-col-items">
+              ${artVideos.map(vid => `
+                <div class="reel-card" data-preview="${vid.previewUrl}">
+                  <div class="reel-player-box">
+                    <img src="${vid.thumbnailUrl}" alt="Видео" class="reel-video-poster" loading="lazy">
+                    <div class="reel-play-overlay">
+                      <div class="reel-play-btn-circle">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                          <polygon points="6 4 20 12 6 20 6 4"></polygon>
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              `).join("")}
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+
+    // Привязываем Lightbox к элементам SMM кейсов
+    smmShowcaseContainer.querySelectorAll(".reel-card[data-full]").forEach(card => {
+      card.addEventListener("click", () => {
+        const fullUrl = card.getAttribute("data-full");
+        openLightbox(`<img src="${fullUrl}" class="lightbox-img" alt="Кейс">`);
+      });
+    });
+
+    smmShowcaseContainer.querySelectorAll(".reel-card[data-preview]").forEach(card => {
+      card.addEventListener("click", () => {
+        const previewUrl = card.getAttribute("data-preview");
+        openLightbox(`
+          <div class="lightbox-video-wrap">
+            <iframe class="lightbox-iframe" src="${previewUrl}" allow="autoplay; encrypted-media; fullscreen" allowfullscreen></iframe>
+          </div>
+        `);
+      });
+    });
+  }
+
+  // 6. Рендер основной сетки работ (по 8 карточек за раз)
+  function renderFeed(items, append = false) {
+    if (!append) {
+      videoGrid.innerHTML = "";
+    }
 
     if (!items || items.length === 0) {
       videoGrid.innerHTML = `
@@ -146,10 +297,13 @@ document.addEventListener("DOMContentLoaded", () => {
           </p>
         </div>
       `;
+      loadMoreWrapper.style.display = "none";
       return;
     }
 
-    items.forEach((item) => {
+    const toRender = items.slice(append ? displayedCount - STEP_SIZE : 0, displayedCount);
+
+    toRender.forEach((item) => {
       const card = document.createElement("article");
       card.className = "reel-card";
       card.setAttribute("data-id", item.id);
@@ -158,7 +312,6 @@ document.addEventListener("DOMContentLoaded", () => {
       const isImage = item.type === "image";
 
       if (isImage) {
-        // Карточка фото / дизайна (без номера, без технического имени файла)
         card.innerHTML = `
           <div class="card-image-box" data-full="${item.thumbnailUrl || item.streamUrl}">
             <img src="${item.thumbnailUrl || item.streamUrl}" alt="Дизайн" class="card-img-preview" loading="lazy">
@@ -180,7 +333,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
       } else {
-        // Карточка видео 9:16 со стабильным постером
         card.innerHTML = `
           <div class="reel-player-box" data-preview="${item.previewUrl}">
             <img src="${item.thumbnailUrl}" alt="Видео Reels" class="reel-video-poster" loading="lazy">
@@ -195,7 +347,6 @@ document.addEventListener("DOMContentLoaded", () => {
           </div>
         `;
 
-        // Клик по видео открывает полноэкранный чистый просмотр в Lightbox без мерцания и релоадов
         card.querySelector(".reel-player-box").addEventListener("click", () => {
           openLightbox(`
             <div class="lightbox-video-wrap">
@@ -212,21 +363,56 @@ document.addEventListener("DOMContentLoaded", () => {
 
       videoGrid.appendChild(card);
     });
+
+    // Управление видимостью кнопки "Показать ещё"
+    if (displayedCount < items.length) {
+      loadMoreWrapper.style.display = "flex";
+      loadMoreBtn.querySelector("span").textContent = `Показать ещё (${items.length - displayedCount} ост.)`;
+    } else {
+      loadMoreWrapper.style.display = "none";
+    }
   }
 
-  // 5. Фильтрация по категориям (Рестораны, Рекламные, SMM, UGC, Дизайн, Атмосфера)
+  // Обработчик кнопки "Показать ещё"
+  loadMoreBtn.addEventListener("click", () => {
+    displayedCount += STEP_SIZE;
+    renderFeed(currentFilteredList, true);
+  });
+
+  // 7. Фильтрация
+  function applyFilter(category) {
+    currentCategory = category;
+    displayedCount = 8; // сбрасываем счетчик при переключении табов на 8
+
+    let filtered = [];
+    if (category === "all") {
+      filtered = balanceMedia(allMedia);
+      smmShowcaseContainer.style.display = "none";
+      videoGrid.style.display = "grid";
+    } else if (category === "smm") {
+      // Для SMM включаем специальный структурированный блок
+      filtered = allMedia.filter(i => i.category === "smm");
+      renderSmmShowcase(filtered);
+      videoGrid.style.display = "none";
+      loadMoreWrapper.style.display = "none";
+      return;
+    } else {
+      filtered = balanceMedia(allMedia.filter(i => i.category === category));
+      smmShowcaseContainer.style.display = "none";
+      videoGrid.style.display = "grid";
+    }
+
+    currentFilteredList = filtered;
+    renderFeed(currentFilteredList, false);
+  }
+
   filterPills.forEach((btn) => {
     btn.addEventListener("click", () => {
       filterPills.forEach((b) => b.classList.remove("active"));
       btn.classList.add("active");
 
       const filter = btn.getAttribute("data-filter");
-      if (filter === "all") {
-        renderFeed(allMedia);
-      } else {
-        const filtered = allMedia.filter((item) => item.category === filter);
-        renderFeed(filtered);
-      }
+      applyFilter(filter);
     });
   });
 

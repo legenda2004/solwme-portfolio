@@ -32,12 +32,12 @@
         <a href="#contacts" class="nav-tab">Контакты</a>
       </nav>
 
-      <!-- Быстрая ссылка на Telegram -->
-      <a href="https://t.me/solwmees" target="_blank" rel="noopener" class="nav-tg-btn">
+      <!-- Быстрая ссылка на Telegram портфолио -->
+      <a href="https://t.me/solwme1" target="_blank" rel="noopener" class="nav-tg-btn" title="Канал портфолио SMM">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
           <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.75-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
         </svg>
-        <span>@solwmees</span>
+        <span>Портфолио SMM</span>
       </a>
 
     </div>
@@ -151,30 +151,62 @@
       </div>
     </section>
 
-    <!-- Секция Портфолио с новыми вкладками по списку заказчицы -->
+    <!-- Секция Портфолио с новыми вкладками -->
     <section class="portfolio-section" id="portfolio">
       <div class="section-title-bar">
         <div>
           <h2 class="feed-title">Портфолио работ</h2>
-          <p class="feed-desc">Видео и дизайн-макеты, синхронизированные из папки Google Диска.</p>
+          <p class="feed-desc">Видео и дизайн-макеты, структурированные по проектам и направлениям.</p>
         </div>
 
         <!-- Точные папки-вкладки -->
         <div class="filter-pills-wrapper" role="tablist" aria-label="Категории портфолио">
           <button class="filter-pill active" data-filter="all">Все работы</button>
-          <button class="filter-pill" data-filter="restaurants">Рестораны</button>
+          <button class="filter-pill" data-filter="smm">SMM-кейсы</button>
+          <button class="filter-pill" data-filter="restaurants">Рестораны & Кафе</button>
           <button class="filter-pill" data-filter="commercial">Рекламные</button>
-          <button class="filter-pill" data-filter="smm">SMM</button>
           <button class="filter-pill" data-filter="ugc">UGC контент-завод</button>
           <button class="filter-pill" data-filter="design">Дизайн</button>
           <button class="filter-pill" data-filter="lifestyle">Атмосфера</button>
         </div>
       </div>
 
+      <!-- Контейнер для структурированных SMM кейсов (Цветочная студия, Арт-студия) -->
+      <div id="smmShowcaseContainer" class="smm-showcase-container" style="display:none;"></div>
+
       <!-- Адаптивная сетка видео и графики -->
       <div class="responsive-video-grid" id="videoFeed" aria-label="Сетка работ">
         <!-- Заполняется автоматически из Google Диска -->
       </div>
+
+      <!-- Кнопка "Показать ещё" (показывает по 8 карточек) -->
+      <div class="load-more-wrapper" id="loadMoreWrapper">
+        <button class="load-more-btn" id="loadMoreBtn">
+          <span>Показать ещё работы</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Баннер перехода в Telegram-канал с портфолио -->
+      <div class="portfolio-tg-banner">
+        <div class="banner-inner">
+          <div class="banner-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.75-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
+            </svg>
+          </div>
+          <div class="banner-content">
+            <h3>Хотите увидеть ещё больше кейсов и бэкстейджей?</h3>
+            <p>В моём отдельном Telegram-канале регулярно выходят свежие съёмки, статистика охватов, оформление сторис и разборы проектов.</p>
+          </div>
+          <a href="https://t.me/solwme1" target="_blank" rel="noopener" class="banner-btn">
+            Открыть канал «Портфолио SMM» →
+          </a>
+        </div>
+      </div>
+
     </section>
 
     <!-- Секция Соцсетей & Статистики & Контактов -->
@@ -203,9 +235,7 @@
           </div>
           
           <!-- Скриншоты tg1.jpg и tg2.jpg -->
-          <div class="social-screens-row" id="tgScreensContainer">
-            <!-- Подставляется динамически или запасные карточки -->
-          </div>
+          <div class="social-screens-row" id="tgScreensContainer"></div>
 
           <a href="https://t.me/solwmees" target="_blank" rel="noopener" class="social-link-btn tg-btn">
             Перейти в Telegram
@@ -229,9 +259,7 @@
           </div>
 
           <!-- Скриншоты inst1.jpg, inst2.jpg, inst3.jpg, inst4.jpg -->
-          <div class="social-screens-grid" id="instaScreensContainer">
-            <!-- Подставляется динамически -->
-          </div>
+          <div class="social-screens-grid" id="instaScreensContainer"></div>
 
           <a href="https://www.instagram.com/solwme?igsh=MWozbmMzMGZweWQ1Yw==" target="_blank" rel="noopener" class="social-link-btn insta-btn">
             Перейти в Instagram
@@ -253,9 +281,7 @@
           </div>
 
           <!-- Скриншоты tiktok1.jpg и tiktok2.jpg -->
-          <div class="social-screens-row" id="ttScreensContainer">
-            <!-- Подставляется динамически -->
-          </div>
+          <div class="social-screens-row" id="ttScreensContainer"></div>
 
           <a href="https://www.tiktok.com/@solwmees?_r=1&_t=ZS-93VJDXRP4d6" target="_blank" rel="noopener" class="social-link-btn tt-btn">
             Перейти в TikTok
@@ -274,6 +300,13 @@
           <span>Solwme@yandex.ru</span>
         </a>
 
+        <a href="https://t.me/solwme1" target="_blank" rel="noopener" class="extra-contact-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.75-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
+          </svg>
+          <span>Канал с портфолио: @solwme1</span>
+        </a>
+
         <div class="extra-contact-item location-item">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
@@ -287,14 +320,12 @@
 
   </main>
 
-  <!-- Модальное окно для полноэкранного просмотра фото и видео -->
+  <!-- Модальное окно Lightbox для чистого полноэкранного просмотра без мерцаний -->
   <div class="lightbox-modal" id="lightboxModal" aria-hidden="true">
     <div class="lightbox-backdrop" id="lightboxBackdrop"></div>
     <div class="lightbox-content">
       <button class="lightbox-close" id="lightboxClose" aria-label="Закрыть">✕</button>
-      <div class="lightbox-body" id="lightboxBody">
-        <!-- Медиа контент -->
-      </div>
+      <div class="lightbox-body" id="lightboxBody"></div>
     </div>
   </div>
 

@@ -235,6 +235,46 @@ document.addEventListener("DOMContentLoaded", () => {
     '1Y3KoQ7OzET8Py6-cTkK7qBxowPyvTOYp', // IMG_1431
   ];
 
+  // Явный порядок для вкладки «Рестораны»
+  const RESTAURANTS_ORDER = [
+    '1rowTRNjuU3u2fT1ImJk_d-DBjoTI-o6I', // B331554E-B4D0-455F-8C36-1BBC205887F0
+    '1tY_YLrv0SJC--7tP4kA9853E7nba2-r8', // photo_2026-10-23_14-58-05
+    '1ca2enalNbf9EApQ8AkL_kdetjVVUtQ8Y', // IMG_2812
+    '1WkA72u_c37uZ64TO5r83OA1cxSFn1R_m', // photo_2026-10-23_14-57-53
+    '1I450aFr9pxSuvL_HchQuzNEGPvWT0b9h', // IMG_5852
+    '1SPefuDk4vXu5-k5yJrIujemhpTd8puyu', // photo_2026-10-23_14-55-23
+    '1auOPdtmIKn5CxS7vsjNU-9K1ON88pzLG', // IMG_4566
+    '1-Of7QO7GCNPfdvXCeNEbrc4YsPQZJQJD', // photo_2026-10-23_14-55-43
+    '1vtYWHY4k3uENMUGtMVIcmLD9jzGPxjAU', // IMG_8221
+    '1yKdmf945gdm66y5sijkdvaG7d5SKhQPH', // photo_2026-10-23_14-55-50
+    '1QcBaY8_OIvAtfsZPSY8PPzWPuc9uMRrM', // IMG_6906
+    '19FRq281oAKL2d4eR2gUoAPJ0duN3TLaX', // photo_2026-10-23_14-56-26
+    '1KQOtmquv46JV28Ee5RCA8Us8q5hRrXij', // IMG_6729
+    '1go0IZiNZ5L-TA5IpVzv9Dzrn8djkfaji', // photo_2026-10-24_19-46-17
+    '1F_L9EOgh6cnHHzxqKVgTn-S_NSeTxTxE', // photo_2026-10-23_14-57-01
+    '1RHdQCZBzeh02jTis5nR8XPg-BUjsh1Cp', // IMG_5681
+    '1YMPM5kAzVFDh10FTsEwX4030e64lEfRc', // IMG_7108
+    '1Bec348jqdx9GB3RgbqpaMbNRV14uuxmL', // IMG_4501
+    '13wWQIKoa1Kz14smC_vlPrX9SXf082hF5', // photo_2026-10-24_19-46-16
+    '1i6rYehU6Wrie_dfrGmcMwK1jwm-UvXXM', // photo_2026-10-23_14-57-16
+    '1eGi8ubY4uODUCykZdssjubBHvAsUNFbC', // IMG_5657
+    '1I5Ivazt-JW_cmytkSCJUDBFCS5rlbdky', // photo_2026-10-23_14-57-28
+    '1lI_USmVZWxrDVOzYiVee7rwJHwM99GT_', // IMG_3323
+    '1ZAuAdwMn4k98hX5WbUrpj4TxfEPmlgWM', // photo_2026-10-23_14-57-39
+    '1d431LNjpEVur5GLmiO1jl__UJ5Ogh_vC', // IMG_1927
+    '1q6jHN5H_Kl1i3esdIlxK_DPkLMYSvb3R', // photo_2026-10-23_14-57-44
+    '17R-mZj87meJBWmYHw0PhYFaTfSkdBMhD', // IMG_1780
+    '1D6zXAErVNZP6h7klY2bDV3HxzJpdj4t0', // photo_2026-10-23_14-57-50
+    '1-7gdPsBqvSwAgvJeNe-LafmymLWGHce0', // IMG_5991
+    '1QP0mukdvTccnCJ8M-zfy00jFwDgqIex6', // photo_2026-10-23_14-58-11
+    '1kBjLvB0LI1S3DITkqvkifkhKKK23T6wI', // IMG_6828
+    '1m4zSP6bBeoRXFtO-Rji6chR8ncQsInIs', // photo_2026-10-23_14-58-14
+    '1wFBi_2F9dMXfHKtwpfr_BCyjPx4HN0xj', // IMG_6613
+    '13XW-azhbKE24lEMMaG5UlHArRCUdlhwc', // photo_2026-10-23_14-58-24
+    '1K0y-fHMJ2kDCgQAO0_pmTd2w_0Sg8fmx', // IMG_0183
+    '1Jnc0Soa-QsajMfWm18rgvVvmG2fNZCCx', // photo_2026-10-23_14-58-29
+  ];
+
   // 5. Показ структурированного блока для вкладки SMM (точная группировка по запросу)
   function renderSmmShowcase(items) {
     // 1. Исключаем удаленное видео 1BHkmpFGARbGs_CEHDzeMPn9YodEO8bc-
@@ -549,6 +589,10 @@ document.addEventListener("DOMContentLoaded", () => {
       videoGrid.style.display = "none";
       loadMoreWrapper.style.display = "none";
       return;
+    } else if (category === "restaurants") {
+      filtered = sortByIdOrder(allMedia.filter(i => i.category === "restaurants"), RESTAURANTS_ORDER);
+      smmShowcaseContainer.style.display = "none";
+      videoGrid.style.display = "grid";
     } else if (category === "commercial") {
       filtered = sortByIdOrder(allMedia.filter(i => i.category === "commercial"), COMMERCIAL_ORDER);
       smmShowcaseContainer.style.display = "none";

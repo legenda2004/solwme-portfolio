@@ -558,6 +558,16 @@ document.addEventListener("DOMContentLoaded", () => {
           '1j2PI2ISWpH5GYDMGJT_yovUg6HYrKLbm', // IMG_1468
         ]
       },
+      {
+        tag: 'UGC #8',
+        title: 'Ювелирный салон «Академия Бриллиантов»',
+        desc: 'Эстетичные UGC-видео для ювелирного салона «Академия Бриллиантов».',
+        ids: [
+          '1k_A8P9KD0xzshMulkPPX30sl1GrcjQxb', // IMG_0272
+          '1WiAEPUCPcTFOuitfAqXJsgLjHCCYU0HT', // IMG_9169
+          '1Y3KoQ7OzET8Py6-cTkK7qBxowPyvTOYp', // IMG_1431
+        ]
+      },
     ];
 
     ugcShowcaseContainer.style.display = "block";
@@ -738,6 +748,7 @@ document.addEventListener("DOMContentLoaded", () => {
     } else if (category === "smm") {
       filtered = allMedia.filter(i => i.category === "smm");
       renderSmmShowcase(filtered);
+      ugcShowcaseContainer.style.display = "none";
       videoGrid.style.display = "none";
       loadMoreWrapper.style.display = "none";
       return;

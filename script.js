@@ -13,6 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const loadMoreWrapper = document.getElementById("loadMoreWrapper");
   const loadMoreBtn = document.getElementById("loadMoreBtn");
   const smmShowcaseContainer = document.getElementById("smmShowcaseContainer");
+  const ugcShowcaseContainer = document.getElementById("ugcShowcaseContainer");
 
   // Контейнеры скриншотов соцсетей
   const tgScreensContainer = document.getElementById("tgScreensContainer");
@@ -476,7 +477,157 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // 6. Рендер основной сетки работ (по 8 карточек за раз)
+  // 5b. Показ структурированного блока для вкладки UGC (группировка по брендам)
+  function renderUgcShowcase(items) {
+    const idMap = new Map(items.map(i => [i.id, i]));
+
+    const ugcCases = [
+      {
+        tag: 'UGC #1',
+        title: 'Косметика Maskoholik',
+        desc: 'Креативные UGC-ролики для косметического бренда Maskoholik.',
+        ids: [
+          '1ManB4U-OHqUUdgRY2d-svzvsGabY-MRy', // IMG_1441
+          '1lcGeJvIo7psKmPeIMuVuGsSPYsT6MECH', // IMG_1442
+          '1H2_f63IaWg3011-AzemMmcYgoc8ryPBy', // IMG_1440
+          '1KHD_QuXvaIqt0ezs_LEUEeKrjEeoSeoN', // photo_2026-10-24_19-30-21
+        ]
+      },
+      {
+        tag: 'UGC #2',
+        title: 'Одежда «ТВОЁ»',
+        desc: 'Стильные видеообзоры и луки для бренда одежды ТВОЁ.',
+        ids: [
+          '1CoNHFNvuzzKGQxyq_dSODi8Mhlfr_cO1', // IMG_1229
+          '1n2cPKQMNKpDAzndVubXrwOoFJ1pibF6g', // IMG_1227
+          '1OhksWojQtd3gDOlBKkZHw6-GHvbb0bNV', // IMG_1228
+          '1klaizwd2MmsB8gVa4JHApcU4o9GD2v8L', // photo_2026-10-24_19-34-20
+        ]
+      },
+      {
+        tag: 'UGC #3',
+        title: 'S-Parfum',
+        desc: 'Атмосферный контент для парфюмерного бренда S-Parfum.',
+        ids: [
+          '1A_JKt-FFfjkZEAkCg-ovVvpXNjeSb8pE', // photo_2026-10-24_19-36-00
+          '1BINcUQGwmbYnY3NkTffZcD0ZpBGWiyI9', // IMG_1457
+          '1OQMtTu3tVJ8un0OaRK0StQoiv5sYzKoy', // IMG_1456
+        ]
+      },
+      {
+        tag: 'UGC #4',
+        title: 'Онлайн-школа «Сотка»',
+        desc: 'Обзоры и рекламные интеграции для онлайн-школы подготовки к ЕГЭ.',
+        ids: [
+          '140pcxOI1FQ71gMQ6fHWfMlMvhZW43Yw5', // IMG_1460
+          '19oTlS7QHhhevcdpiBY_IWuqu_DN_oru3', // IMG_1459
+          '1jCb8Ljf5rt4YNRLXuyVC9QrrLyb08Ble', // IMG_1458
+          '1uWpaTSwxYuRtcgzoXr-bYcjPLkI181WA', // photo_2026-10-25_09-50-58
+        ]
+      },
+      {
+        tag: 'UGC #5',
+        title: 'Косметика Mixit',
+        desc: 'Яркие распаковки и обзоры косметики Mixit.',
+        ids: [
+          '17w4SvJPTlnrQmVPV5IqEW_igz1XuGmxy', // IMG_1462
+          '14C3yT29nmGxA0UOG6Clu8hKxvIUAzZn7', // IMG_1461
+          '1qvAJc1g71HMovPRvL816Zh0E6gxFnHfy', // IMG_1448
+          '1Y6rdZf64rRQ_nt9ofwJZb4hwjaGrLjCc', // IMG_1446
+          '1v_Ks5i1RfZu8U4s3AC-2biF9q3fHL70I', // photo_2026-10-24_19-38-03
+        ]
+      },
+      {
+        tag: 'UGC #6',
+        title: 'Tashe / Limba косметика',
+        desc: 'UGC-контент для косметических брендов Tashe и Limba.',
+        ids: [
+          '1rBBodPFgsdCEfd1mQ7jssUb79PEn9eHi', // IMG_1445
+          '1BkJvZprSfiGrzxSy3nHihaaxdIb8fJ6A', // IMG_1443
+          '1rJyVnyFZ4RazlEKaBX0QcxTb_gyiX2G2', // IMG_1444
+        ]
+      },
+      {
+        tag: 'UGC #7',
+        title: 'Косметика 11i professional',
+        desc: 'Профессиональный UGC для бренда 11i professional.',
+        ids: [
+          '1XU8HPQKvfeYDWvFAfZsozptmgyM8UTPu', // photo_2026-10-24_19-43-14
+          '1CIYu0ZToQE-8ZOHgRnH_5154Xbux3zso', // IMG_1466
+          '1gEU0wAlpAl4_eCQwrUcsu82cAmnyS_8W', // IMG_1465
+          '1j2PI2ISWpH5GYDMGJT_yovUg6HYrKLbm', // IMG_1468
+        ]
+      },
+    ];
+
+    ugcShowcaseContainer.style.display = "block";
+    ugcShowcaseContainer.innerHTML = ugcCases.map(c => {
+      const caseItems = c.ids.map(id => idMap.get(id)).filter(Boolean);
+      const imgs = caseItems.filter(i => i.type === 'image');
+      const vids = caseItems.filter(i => i.type === 'video');
+
+      return `
+      <div class="smm-case-block">
+        <div class="smm-case-header">
+          <div class="smm-case-tag">${c.tag}</div>
+          <h3 class="smm-case-title">${c.title}</h3>
+          <p class="smm-case-desc">${c.desc}</p>
+        </div>
+        <div class="smm-split-grid">
+          ${imgs.length ? `<div class="smm-split-col">
+            <h4 class="smm-col-title">Фото</h4>
+            <div class="smm-col-items">
+              ${imgs.map(img => `
+                <div class="reel-card" data-full="${img.thumbnailUrl}">
+                  <div class="card-image-box">
+                    <img src="${img.thumbnailUrl}" alt="${img.title}" class="card-img-preview" loading="lazy">
+                  </div>
+                </div>
+              `).join("")}
+            </div>
+          </div>` : ""}
+          ${vids.length ? `<div class="smm-split-col">
+            <h4 class="smm-col-title">Видео</h4>
+            <div class="smm-col-items">
+              ${vids.map(vid => `
+                <div class="reel-card" data-preview="${vid.previewUrl}">
+                  <div class="reel-player-box">
+                    <img src="${vid.thumbnailUrl}" alt="Видео" class="reel-video-poster" loading="lazy">
+                    <div class="reel-play-overlay">
+                      <div class="reel-play-btn-circle">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                          <polygon points="6 4 20 12 6 20 6 4"></polygon>
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              `).join("")}
+            </div>
+          </div>` : ""}
+        </div>
+      </div>
+      `;
+    }).join("");
+
+    // Привязываем Lightbox к UGC кейсам
+    ugcShowcaseContainer.querySelectorAll(".reel-card[data-full]").forEach(card => {
+      card.addEventListener("click", () => {
+        openLightbox(`<img src="${card.getAttribute("data-full")}" class="lightbox-img" alt="UGC">`);
+      });
+    });
+    ugcShowcaseContainer.querySelectorAll(".reel-card[data-preview]").forEach(card => {
+      card.addEventListener("click", () => {
+        openLightbox(`
+          <div class="lightbox-video-wrap">
+            <iframe class="lightbox-iframe" src="${card.getAttribute("data-preview")}" allow="autoplay; encrypted-media; fullscreen" allowfullscreen></iframe>
+          </div>
+        `);
+      });
+    });
+  }
+
+    // 6. Рендер основной сетки работ (по 8 карточек за раз)
   function renderFeed(items, append = false) {
     if (!append) {
       videoGrid.innerHTML = "";
@@ -582,6 +733,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (category === "all") {
       filtered = balanceMedia(allMedia);
       smmShowcaseContainer.style.display = "none";
+      ugcShowcaseContainer.style.display = "none";
       videoGrid.style.display = "grid";
     } else if (category === "smm") {
       filtered = allMedia.filter(i => i.category === "smm");
@@ -592,18 +744,25 @@ document.addEventListener("DOMContentLoaded", () => {
     } else if (category === "restaurants") {
       filtered = sortByIdOrder(allMedia.filter(i => i.category === "restaurants"), RESTAURANTS_ORDER);
       smmShowcaseContainer.style.display = "none";
+      ugcShowcaseContainer.style.display = "none";
       videoGrid.style.display = "grid";
     } else if (category === "commercial") {
       filtered = sortByIdOrder(allMedia.filter(i => i.category === "commercial"), COMMERCIAL_ORDER);
       smmShowcaseContainer.style.display = "none";
+      ugcShowcaseContainer.style.display = "none";
       videoGrid.style.display = "grid";
     } else if (category === "ugc") {
-      filtered = sortByIdOrder(allMedia.filter(i => i.category === "ugc"), UGC_ORDER);
+      const ugcItems = allMedia.filter(i => i.category === "ugc");
+      renderUgcShowcase(ugcItems);
       smmShowcaseContainer.style.display = "none";
-      videoGrid.style.display = "grid";
+      ugcShowcaseContainer.style.display = "none";
+      videoGrid.style.display = "none";
+      loadMoreWrapper.style.display = "none";
+      return;
     } else {
       filtered = balanceMedia(allMedia.filter(i => i.category === category));
       smmShowcaseContainer.style.display = "none";
+      ugcShowcaseContainer.style.display = "none";
       videoGrid.style.display = "grid";
     }
 
